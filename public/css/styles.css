@@ -1,0 +1,110 @@
+/* General */
+@import url(https://fonts.googleapis.com/css?family=Lobster);
+@import url(https://fonts.googleapis.com/css?family=Imprima);
+
+.centered_parent{
+	position: relative;
+}
+
+.centered_child{
+	position: relative;
+	top: 50%;
+	transform:translateY(-50%);
+}
+
+/* Registro */
+
+.navbar-brand-register{
+	color: white;
+	font-size: 2em;
+	font-family: 'Lobster', cursive;
+}
+.navbar-nav-register li a{
+	color: white;
+}
+
+.register-container{
+	background: url("http://i.dailymail.co.uk/i/pix/2011/02_03/cab.gif") no-repeat fixed center center / cover transparent;
+	position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+}	
+
+.brand-container{
+	text-align: center;
+}
+
+.logo-img{
+	width: 30%;
+	display: inline-block;
+}
+
+.brand-register{
+	color: white;
+	font-size: 8em;
+	font-family: 'Lobster', cursive;
+	text-align: center;
+}
+
+.slogan{
+	font-family: 'Imprima', sans-serif;
+	font-size: 1.5em;
+	color: white;
+	text-align: center;
+	margin-top: -10px;
+}
+
+.black{
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	opacity: 0.60;
+	position: absolute;
+}
+
+.register-form, .login-form{
+	font-family: 'Imprima', sans-serif;
+	color: white;
+}
+
+.register-form .register, .login-form .login{
+	font-size: 2em;
+	text-align: center;
+}
+
+.register-btn, .login-btn{
+	background-color: transparent;
+	border-color: white;
+	border-radius: 0px;
+	font-size: 1.2em;
+	padding: 5px 25px;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.register-btn:hover,.login-btn:hover{
+	background-color: #ff5252;
+	border-color: #ff5252;
+	color: white;
+	
+}
+
+.already, .remember, .forgot-password{
+	font-size: 1.2em;
+	text-align: center;
+}
+
+.already a, .already a:hover{
+	color: #ff5252;
+}
+
+/* Inicio de sesion*/
+
+.login-container{
+	background: url("http://i.imgur.com/SOdgD.gif") no-repeat fixed center center / cover transparent;
+	position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+}	
+
+.forgot-password, .forgot-password:hover{
+	font-size: 1.2em;
+	margin-top:-15px;
+	color:lightblue;
+}
