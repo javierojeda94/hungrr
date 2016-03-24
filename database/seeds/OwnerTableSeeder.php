@@ -12,7 +12,7 @@ class OwnerTableSeeder extends Seeder
      */
     public function run()
     {
-        $sampleImagePath = 'images/owner/sample_owner.png';
+        $sampleImagePath = 'images/owners/sample_owner.png';
         $faker = Faker\Factory::create();
         $data = array(
             'name'=> $faker->firstName,

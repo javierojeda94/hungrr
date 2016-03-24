@@ -16,7 +16,7 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $sampleImagePath = 'images/user/sample_user.png';
+        $sampleImagePath = 'images/users/sample_user.png';
         $faker = Faker\Factory::create();
         $data = array(
             'username' => DEFAUL_USERNAME,
