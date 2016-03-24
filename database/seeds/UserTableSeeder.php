@@ -1,6 +1,11 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
+
+define('DEFAULT_EMAIL', 'user@hungrr.com.mx');
+define('DEFAUL_PASSWORD', 'password');
+define('DEFAUL_USERNAME', 'hungrr');
 
 class UserTableSeeder extends Seeder
 {
@@ -11,6 +16,21 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $sampleImagePath = 'images/user/sample_user.png';
+        $faker = Faker\Factory::create();
+        $data = array(
+            'username' => DEFAUL_USERNAME,
+            'name'=> $faker->firstName,
+            'last_name' => $faker->lastName,
+            'email' => DEFAULT_EMAIL,
+            'image' => $sampleImagePath,
+            'password' => bcrypt(DEFAUL_PASSWORD),
+            'remember_token' => null,
+            'created_at' => new DateTime(),
+            'updated_at' => new DateTime()
+        );
+        $user = User::create($data);
+        $user->restaurants()->attach(1);
+        $user->menus()->attach(1);
     }
 }
