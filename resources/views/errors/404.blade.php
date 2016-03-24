@@ -15,8 +15,7 @@
         }
         #error-image{
             bottom: 0;
-            right: 0;
-            position: fixed;
+            float: right;
         }
         a{
             text-decoration: none;
@@ -34,5 +33,5 @@
         <p id="error-message"> Lo sentimos, nuestros chefs no han podido encontrar lo que estabas buscando. <br>
             <a href="{{url('/home')}}"><span class="fa fa-home"> Ir al inicio. </a></p>
     </div>
-    <img id="error-image" src="{{asset('images/background/child_smiling.jpg')}}" alt="Child 404">
+    <img id="error-image" class="img img-responsive" src="{{asset('images/background/child_smiling.jpg')}}" alt="Child 404">
 @endsection
