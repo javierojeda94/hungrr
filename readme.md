@@ -4,7 +4,7 @@ Hungrr es una aplicación para móvil sencilla y fácil de usar, que permite enc
 
 ## Información técnica
 
-Se utiliza la metodología ágil SCRUM.
+Se utiliza la metodología ágil SCRUM
 
 ### Miembros del equipo
 
