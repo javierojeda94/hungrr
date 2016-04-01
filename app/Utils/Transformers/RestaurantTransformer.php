@@ -7,7 +7,6 @@
  */
 
 namespace App\Utils\Transformers;
-use App\Utils\Transformer;
 
 class RestaurantTransformer extends Transformer
 {
