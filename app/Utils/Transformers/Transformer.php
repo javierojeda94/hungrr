@@ -6,7 +6,7 @@
  * Time: 01:21 AM
  */
 
-namespace App\Utils;
+namespace App\Utils\Transformers;
 
 
 abstract class Transformer

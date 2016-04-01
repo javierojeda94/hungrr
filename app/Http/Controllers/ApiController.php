@@ -40,7 +40,7 @@ class ApiController extends Controller
         return $this->respond($data, $headers);
     }
 
-    protected function respondCreated($message)
+    protected function respondCreated($message = 'Created!')
     {
         return $this->setStatusCode(HTTPResponse::HTTP_CREATED)->respondWithSuccess($message);
     }
@@ -67,27 +67,31 @@ class ApiController extends Controller
 
     private function respondWithError($message)
     {
-        return Response::json(
+        return $this->respond(
             [
                 'error' => [
                     'message' => $message,
                     'status_code' => $this->getStatusCode()
                 ]
             ],
-            $this->getStatusCode()
+            [
+                'Content-Type' => 'application/json'
+            ]
         );
     }
 
     private function respondWithSuccess($message)
     {
-        return Response::json(
+        return $this->respond(
             [
                 'success' => [
                     'message' => $message,
                     'status_code' => $this->getStatusCode()
                 ]
             ],
-            $this->getStatusCode()
+            [
+                'Content-Type' => 'application/json'
+            ]
         );
     }
 

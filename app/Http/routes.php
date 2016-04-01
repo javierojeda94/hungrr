@@ -37,5 +37,5 @@ Route::group(['prefix'=>'api/v1'], function(){
     Route::post('login','SessionController@login');
     // Restaurants
     Route::resource('restaurants', 'RestaurantsController');
-
+    Route::get('restaurants/{latitude}/{longitude}', 'RestaurantsController@findByLocation');
 });
