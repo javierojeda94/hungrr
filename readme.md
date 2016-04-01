@@ -11,7 +11,7 @@ Se utiliza la metodología ágil SCRUM
 * Genny Centeno - Scrum Master
 * Javier Ojeda - Programador Backend
 * Elsy Pinzón - Android Developer
-* Luis Burgos - US/Android Developer
+* Luis Burgos - UX/Android Developer
 * Féliz Díaz - Programador Backend
 
 ## Fecha de lanzamiento
