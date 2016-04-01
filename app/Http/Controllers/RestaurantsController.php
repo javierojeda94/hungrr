@@ -7,6 +7,7 @@ use App\Utils\Transformers\RestaurantTransformer;
 use App\Http\Requests;
 use App\Utils\Transformers\VenueTransformer;
 use App\FoursquareAPI;
+use Illuminate\Support\Facades\Input;
 
 class RestaurantsController extends ApiController
 {
@@ -40,8 +41,7 @@ class RestaurantsController extends ApiController
         }
     }
 
-    public function index()
-    {
+    public function index(){
         $restaurants = Restaurant::all();
         return $this->respondFound(['data' => $this->restaurantTransformer->transformCollection($restaurants->toArray())]);
     }
