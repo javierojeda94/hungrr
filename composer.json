@@ -8,7 +8,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "jcroll/foursquare-api-client": "1.0.*",
-        "fzaninotto/faker": "^1.5"
+        "fzaninotto/faker": "^1.5",
+        "jcroll/foursquare-api-client": "1.0.*"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
