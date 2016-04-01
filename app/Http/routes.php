@@ -32,6 +32,10 @@ Route::group(['middleware' => 'web'], function () {
 });
 
 Route::group(['prefix'=>'api/v1'], function(){
+    // Session
+    Route::post('signup','SessionController@signup');
+    Route::post('login','SessionController@login');
+    // Restaurants
     Route::resource('restaurants', 'RestaurantsController');
-});
 
+});
