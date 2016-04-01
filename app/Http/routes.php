@@ -33,5 +33,6 @@ Route::group(['middleware' => 'web'], function () {
 
 Route::group(['prefix'=>'api/v1'], function(){
     Route::resource('restaurants', 'RestaurantsController');
+    Route::get('restaurants/{latitude}/{longitude}', 'RestaurantsController@findByLocation');
 });
 
