@@ -60,6 +60,10 @@ class ApiController extends Controller
         return $this->setStatusCode(HTTPResponse::HTTP_UNPROCESSABLE_ENTITY)->respondWithError($message);
     }
 
+    protected function respondNotAuthorized($message = 'Wrong credentials!')
+    {
+        return $this->setStatusCode(HTTPResponse::HTTP_FORBIDDEN)->respondWithError($message);
+    }
 
     private function respondWithError($message)
     {
