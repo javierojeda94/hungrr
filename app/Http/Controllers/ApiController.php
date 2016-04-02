@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use ForceUTF8\Encoding;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\Response as HTTPResponse;
 
@@ -97,6 +98,10 @@ class ApiController extends Controller
 
     private function respond($data, $headers)
     {
-        return Response::json($data, $this->getStatusCode(), $headers);
+        $response = Response::json($data, $this->getStatusCode(), $headers, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        return $response;
     }
+
 }
+
+
