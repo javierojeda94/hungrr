@@ -23,7 +23,7 @@ class SessionMiddleware
         }
         $email = $request->email;
         $password = $request->password;
-        $auth_token = $request->header('auth_token');
+        $auth_token = $request->auth_token;
         $user = User::where('email',$email)->where('password',md5($password))->first();
         if($user !== null && $auth_token === $user->auth_token){
             return $next($request);
