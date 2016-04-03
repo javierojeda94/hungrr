@@ -41,9 +41,9 @@ class ApiController extends Controller
         return $this->respond($data, $headers);
     }
 
-    protected function respondCreated($message = 'Created!')
+    protected function respondCreated($message = 'Created!', $token)
     {
-        return $this->setStatusCode(HTTPResponse::HTTP_CREATED)->respondWithSuccess($message);
+        return $this->setStatusCode(HTTPResponse::HTTP_CREATED)->respondWithSuccess($message, $token);
     }
 
     protected function respondNotFound($message = 'Not Found!')
@@ -81,17 +81,18 @@ class ApiController extends Controller
         );
     }
 
-    private function respondWithSuccess($message)
+    private function respondWithSuccess($message, $token)
     {
         return $this->respond(
             [
                 'success' => [
                     'message' => $message,
-                    'status_code' => $this->getStatusCode()
+                    'status_code' => $this->getStatusCode(),
                 ]
             ],
             [
-                'Content-Type' => 'application/json'
+                'Content-Type' => 'application/json',
+                'token' => $token
             ]
         );
     }
@@ -103,5 +104,3 @@ class ApiController extends Controller
     }
 
 }
-
-

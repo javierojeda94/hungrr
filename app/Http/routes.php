@@ -31,7 +31,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/home', 'HomeController@index');
 });
 
-Route::group(['prefix'=>'api/v1'], function(){
+Route::group(['prefix'=>'api/v1', 'middleware' => 'api'], function(){
     // Session
     Route::post('signup','SessionController@signup');
     Route::post('login','SessionController@login');
