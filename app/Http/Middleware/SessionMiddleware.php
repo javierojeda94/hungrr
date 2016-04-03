@@ -29,9 +29,10 @@ class SessionMiddleware
             return $next($request);
         }
         else{
+            $error = ($user === null)? 'Wrong credentials!' : "Token error!";
             return response()->json([
                 'error' => [
-                    'message' => 'Identification error. Check credentials and/or auth token.',
+                    'message' => $error,
                     'status_code' => '403'
                 ]
             ])->header('Content-Type', 'application/json');;
