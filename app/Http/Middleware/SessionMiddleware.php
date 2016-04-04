@@ -21,7 +21,7 @@ class SessionMiddleware
         if($path === 'api/v1/signup' || $path === 'api/v1/login'){
             return $next($request);
         }
-        $auth_token = $request->auth_token;
+        $auth_token = $request->header('Authorization');
         $user = User::where('auth_token',$auth_token)->first();
         if($user !== null && $auth_token === $user->auth_token){
             return $next($request);
