@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use ForceUTF8\Encoding;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\Response as HTTPResponse;
+use Auth;
 
 class ApiController extends Controller
 {
@@ -38,11 +39,16 @@ class ApiController extends Controller
 
     protected function respondFound($data, $headers = [])
     {
+        $user = Auth::user();
+        $auth_token = generate_token($user);
+        $headers['token'] = $auth_token;
         return $this->respond($data, $headers);
     }
 
-    protected function respondCreated($message = 'Created!', $token)
+    protected function respondCreated($message = 'Created!')
     {
+        $user = Auth::user();
+        $token = generate_token($user);
         return $this->setStatusCode(HTTPResponse::HTTP_CREATED)->respondWithSuccess($message, $token);
     }
 

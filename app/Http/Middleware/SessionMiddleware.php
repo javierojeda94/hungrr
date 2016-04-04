@@ -6,6 +6,8 @@ use Closure;
 
 use App\User;
 
+use Auth;
+
 class SessionMiddleware
 {
     /**
@@ -24,6 +26,7 @@ class SessionMiddleware
         $auth_token = $request->header('Authorization');
         $user = User::where('auth_token',$auth_token)->first();
         if($user !== null && $auth_token === $user->auth_token){
+            Auth::login($user);
             return $next($request);
         }
         else{

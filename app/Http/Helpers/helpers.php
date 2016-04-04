@@ -1,7 +1,10 @@
 <?php
 
-function generate_token($email, $password){
+function generate_token($user){
     $time = microtime();
-    $shuffled_string = str_shuffle('token'.$email.$password.'hungrr'.$time);
-    return base64_encode($shuffled_string);
+    $email = $user->email;
+    $password = $user->password;
+    $user->auth_token = str_shuffle('token'.$email.$password.'hungrr'.$time);
+    $user->save();
+    return $user->auth_token;
 }

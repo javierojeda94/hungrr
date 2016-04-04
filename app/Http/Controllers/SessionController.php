@@ -24,9 +24,9 @@ class SessionController extends ApiController
             $user->email = $request->email;
             $user->username = $request->username;
             $user->password = md5($request->password);
-            $user->auth_token = generate_token($user->email,$user->password);
             $user->save();
-            return $this->respondCreated('Usuario creado con éxito',$user->auth_token);
+            Auth::login($user);
+            return $this->respondCreated('Usuario creado con éxito');
         } catch (\Exception $e){
             return $this->respondInternalError($e->getMessage());
         }
@@ -42,10 +42,8 @@ class SessionController extends ApiController
         $password = md5($request->password);
         $user = User::where('email',$email)->where('password',$password)->first();
         if ($user !== null) {
-            $auth_token = generate_token($email, $password);
-            $user->auth_token = $auth_token;
-            $user->save();
-            return $this->respondFound(['message' => 'User authenticated!'],['token' => $auth_token]);
+            Auth::login($user);
+            return $this->respondFound(['message' => 'User authenticated!']);
         }
         else{
             return $this->respondNotAuthorized('Identification error. Check credentials and/or auth token.');
