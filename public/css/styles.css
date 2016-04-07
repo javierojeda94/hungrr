@@ -8,7 +8,7 @@
 
 .centered_child{
 	position: relative;
-	top: 50%;
+	top: 50vh;
 	transform:translateY(-50%);
 }
 
@@ -26,7 +26,7 @@
 .register-container{
 	background: url("http://i.dailymail.co.uk/i/pix/2011/02_03/cab.gif") no-repeat fixed center center / cover transparent;
 	position: absolute; top: 0; right: 0; bottom: 0; left: 0;
-}	
+}
 
 .brand-container{
 	text-align: center;
@@ -84,7 +84,7 @@
 	background-color: #ff5252;
 	border-color: #ff5252;
 	color: white;
-	
+
 }
 
 .already, .remember, .forgot-password{
@@ -99,9 +99,9 @@
 /* Inicio de sesion*/
 
 .login-container{
-	background: url("http://i.imgur.com/SOdgD.gif") no-repeat fixed center center / cover transparent;
+	background: url("https://media.giphy.com/media/7JzHsh3UTip20/giphy.gif") no-repeat fixed center center / cover transparent;
 	position: absolute; top: 0; right: 0; bottom: 0; left: 0;
-}	
+}
 
 .forgot-password, .forgot-password:hover{
 	font-size: 1.2em;
