@@ -10,7 +10,18 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('/images/{filename}', function ($filename) {
+    $path = storage_path() . '/app/images/' . $filename;
 
+    $file = File::get($path);
+    /* fix used while we enable finfo_file php function in cpanel */
+    $type = 'image/png'; //File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +42,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/home', 'HomeController@index');
 });
 
-Route::group(['prefix'=>'api/v1', 'middleware' => 'api'], function(){
+// , 'middleware' => 'api'
+
+Route::group(['prefix'=>'api/v1'], function(){
     // Session
     Route::post('signup','SessionController@signup');
     Route::post('login','SessionController@login');

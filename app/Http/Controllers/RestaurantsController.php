@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Restaurant;
 use App\Utils\Transformers\RestaurantTransformer;
 use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Utils\Transformers\VenueTransformer;
 use App\FoursquareAPI;
+use Storage;
 use Illuminate\Support\Facades\Input;
 
 class RestaurantsController extends ApiController
@@ -56,8 +58,22 @@ class RestaurantsController extends ApiController
         }
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        dd('store');
+        $restaurant = new Restaurant;
+        $restaurant->name = $request->name;
+        $restaurant->latitude = $request->latitude;
+        $restaurant->longitude = $request->longitude;
+        $restaurant->direction = $request->direction;
+        $restaurant->type = $request->type;
+        $restaurant->save();
+        if ($request->hasFile('image')) {
+            Storage::put(
+                '/images/p_img_' . $restaurant->id . '.png', file_get_contents($request->file('image')->getRealPath())
+            );
+            $restaurant->image = url('/images/restaurant_img_'. $restaurant->id . '.png');
+        }
+        $restaurant->save();
+        dd($restaurant);
     }
 }
