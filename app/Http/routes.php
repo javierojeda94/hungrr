@@ -44,7 +44,7 @@ Route::group(['middleware' => 'web'], function () {
 
 // , 'middleware' => 'api'
 
-Route::group(['prefix'=>'api/v1'], function(){
+Route::group(['prefix'=>'api/v1', 'middleware' => 'api'], function(){
     // Session
     Route::post('signup','SessionController@signup');
     Route::post('login','SessionController@login');
