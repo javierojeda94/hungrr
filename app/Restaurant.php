@@ -25,4 +25,9 @@ class Restaurant extends Model
     {
         return $this->belongsToMany('App\User');
     }
+
+    public function phones()
+    {
+        return $this->hasMany('App\Phone');
+    }
 }
