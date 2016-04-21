@@ -24,7 +24,7 @@ class UserTableSeeder extends Seeder
             'last_name' => $faker->lastName,
             'email' => DEFAULT_EMAIL,
             'image' => $sampleImagePath,
-            'password' => bcrypt(DEFAUL_PASSWORD),
+            'password' => md5(DEFAUL_PASSWORD),
             'remember_token' => null,
             'created_at' => new DateTime(),
             'updated_at' => new DateTime()

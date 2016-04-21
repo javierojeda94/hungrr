@@ -8,7 +8,6 @@
 
 namespace App\Http\Controllers;
 
-use ForceUTF8\Encoding;
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\Response as HTTPResponse;
 use Auth;

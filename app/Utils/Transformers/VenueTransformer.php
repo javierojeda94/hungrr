@@ -8,7 +8,6 @@
 
 namespace app\Utils\Transformers;
 
-use ForceUTF8\Encoding;
 
 define('SPACE', ' ');
 define('FIRST', 0);
