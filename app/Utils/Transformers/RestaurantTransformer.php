@@ -48,12 +48,12 @@ class RestaurantTransformer extends Transformer
 
     }
 
-    private function isFavorite($restaurantID){
+    protected function isFavorite($restaurantID){
         $restaurant = Auth::user()->restaurants()->where('restaurant_id','=',$restaurantID)->first();
         return $restaurant != null;
     }
 
-    private function getAveragePrice($restaurantID){
+    protected function getAveragePrice($restaurantID){
         $result = DB::select(DB::raw(sprintf(QUERY_RESTAURANT_AVG_PRICE, $restaurantID)));
         $averagePrice = $result[FIRST_RESTAURANT]->avg_price;
         $restaurantHasMenus = $averagePrice!=null;
@@ -65,7 +65,7 @@ class RestaurantTransformer extends Transformer
         }
     }
 
-    private function getPhoneNumbers($restaurantID){
+    protected function getPhoneNumbers($restaurantID){
         $phones = Restaurant::find($restaurantID)->phones()->get();
         $phonesTransformed = array();
         foreach($phones as $phone){
@@ -77,7 +77,7 @@ class RestaurantTransformer extends Transformer
         return $phonesTransformed;
     }
 
-    private function getSchedule($restaurantID){
+    protected function getSchedule($restaurantID){
         $schedules = Restaurant::find($restaurantID)->schedules()->get();
         $schedulesTransformed = array();
         foreach($schedules as $schedule){

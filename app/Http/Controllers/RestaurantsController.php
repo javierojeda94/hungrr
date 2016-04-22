@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Restaurant;
+use App\Utils\Transformers\DetailedRestaurantTransformer;
 use App\Utils\Transformers\RestaurantTransformer;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Utils\Transformers\VenueTransformer;
 use App\FoursquareAPI;
+use Illuminate\Support\Facades\Auth;
 use Storage;
 use Illuminate\Support\Facades\Input;
 
@@ -19,10 +21,12 @@ class RestaurantsController extends ApiController
      */
     protected $restaurantTransformer;
     protected $venuesTransformer;
+    protected $detailedRestaurantTransformer;
 
     public function __construct()
     {
         $this->restaurantTransformer = new RestaurantTransformer();
+        $this->detailedRestaurantTransformer = new DetailedRestaurantTransformer();
         $this->venuesTransformer = new VenueTransformer();
         $this->middleware('auth', ['only' => 'post']);
     }
@@ -43,19 +47,45 @@ class RestaurantsController extends ApiController
         }
     }
 
+    public function findByLocationAndBudget($latitude, $longitude, $budgetMin, $budgetMax){
+        $restaurants = Restaurant::where('price','>=',$budgetMin)->where('price','<=',$budgetMax)->get();
+        $restaurantsInArea = array();
+        foreach($restaurants->toArray() as $restaurant){
+            if( distance($restaurant->latitude, $restaurant->longitude, $latitude, $longitude) < SEARCH_RADIUS ){
+                $restaurantsInArea[] = $restaurant;
+            }
+        }
+        $result = $this->restaurantTransformer->transformCollection($restaurantsInArea);
+        if( count($result) ){
+            return $this->respondFound(['data' => $result]);
+        }else{
+            return $this->respondNotFound('Restaurants not found near you');
+        }
+    }
+
     public function index(){
         $restaurants = Restaurant::all();
         return $this->respondFound(['data' => $this->restaurantTransformer->transformCollection($restaurants->toArray())]);
     }
 
-    public function show($id)
+    public function show($restaurantID)
     {
-        $restaurant = Restaurant::find($id);
+        $restaurant = Restaurant::with('menus.sections.elements')->where('id','=', $restaurantID)->get()->first();
         if( $restaurant ) {
-            return $this->respondFound(['data' => $this->restaurantTransformer->transform($restaurant)]);
+            return $this->respondFound(['data' => $this->detailedRestaurantTransformer->transform($restaurant)]);
         }else{
             return $this->respondNotFound('Restaurant not found');
         }
+    }
+
+    public function favorite($restaurantID){
+        $result = Auth::user()->restaurants()->attach($restaurantID);
+        return $this->respondCreated('Favorite Successfull ' . $result);
+    }
+
+    public function unfavorite($restaurantID){
+        $result = Auth::user()->restaurants()->detach($restaurantID);
+        return $this->respondCreated('Unfavorite Successfull ' . $result);
     }
 
     public function store(Request $request)

@@ -51,4 +51,8 @@ Route::group(['prefix'=>'api/v1', 'middleware' => 'api'], function(){
     // Restaurants
     Route::resource('restaurants', 'RestaurantsController');
     Route::get('restaurants/{latitude}/{longitude}', 'RestaurantsController@findByLocation');
+    Route::get('restaurants/{latitude}/{longitude}/{budgetMin}/{budgetMax}', 'RestaurantsController@findByLocationAndBudget');
+    Route::get('restaurant/details/{restaurantID}', 'RestaurantsController@show');
+    Route::get('restaurant/favorite/{restaurantID}', 'RestaurantsController@favorite');
+    Route::get('restaurant/unfavorite/{restaurantID}', 'RestaurantsController@unfavorite');
 });
