@@ -31,14 +31,32 @@ class RestaurantsController extends ApiController
         $this->middleware('auth', ['only' => 'post']);
     }
 
+    public function showFavorites(){
+        $favorites = Auth::user()->restaurants();
+        $result = $this->restaurantTransformer->transformCollection($favorites->toArray());
+        if( count($result) ){
+            return $this->respondFound(['data' => $result]);
+        }else{
+            return $this->respondNotFound('Restaurants not found near you');
+        }
+    }
 
     public function findByLocation($latitude, $longitude){
         $foursquareAPI = new FoursquareAPI();
         $venues = $foursquareAPI->all($latitude, $longitude);
         $restaurants = Restaurant::all();
+        $restaurantsInArea = array();
+        foreach($restaurants->toArray() as $restaurant){
+            if( distance($restaurant['latitude'], $restaurant['longitude'], $latitude, $longitude) < SEARCH_RADIUS ){
+                $restaurantsInArea[] = $restaurant;
+            }
+            if( count($restaurantsInArea) > 9){
+                break;
+            }
+        }
         $result = array_merge(
             $this->venuesTransformer->transformCollection($venues),
-            $this->restaurantTransformer->transformCollection($restaurants->toArray())
+            $this->restaurantTransformer->transformCollection($restaurantsInArea)
         );
         if( count($result) ){
             return $this->respondFound(['data' => $result]);
@@ -51,8 +69,11 @@ class RestaurantsController extends ApiController
         $restaurants = Restaurant::where('price','>=',$budgetMin)->where('price','<=',$budgetMax)->get();
         $restaurantsInArea = array();
         foreach($restaurants->toArray() as $restaurant){
-            if( distance($restaurant->latitude, $restaurant->longitude, $latitude, $longitude) < SEARCH_RADIUS ){
+            if( distance($restaurant['latitude'], $restaurant['longitude'], $latitude, $longitude) < SEARCH_RADIUS ){
                 $restaurantsInArea[] = $restaurant;
+            }
+            if( count($restaurantsInArea) > 9){
+                break;
             }
         }
         $result = $this->restaurantTransformer->transformCollection($restaurantsInArea);

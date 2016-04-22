@@ -13,17 +13,22 @@ class SectionTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        $sectionsNumber = 3;
-        for($i = 0; $i < $sectionsNumber; $i++){
-            $data = array(
-                [
-                    'name'=> $faker->word,
-                    'menu_id' => 1,
-                    'created_at' => new DateTime(),
-                    'updated_at' => new DateTime()
-                ]
-            );
-            Section::insert($data);
+        for($i=0; $i<RESTAURANTS_NUMBER*3; $i++){
+
+            if($i < RESTAURANTS_NUMBER){
+                $menuID = $i + 1;
+            }else if($i < RESTAURANTS_NUMBER*2){
+                $menuID = $i + 1 - RESTAURANTS_NUMBER;
+            }else{
+                $menuID = $i + 1 - RESTAURANTS_NUMBER*2;
+            }
+
+            Section::insert( [
+                'name'=> $faker->word,
+                'menu_id' => $menuID,
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime()
+            ]);
         }
     }
 }

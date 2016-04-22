@@ -29,8 +29,6 @@ class UserTableSeeder extends Seeder
             'created_at' => new DateTime(),
             'updated_at' => new DateTime()
         );
-        $user = User::create($data);
-        $user->restaurants()->attach(1);
-        $user->menus()->attach(1);
+        User::create($data);
     }
 }

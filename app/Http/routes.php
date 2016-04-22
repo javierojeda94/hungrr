@@ -55,4 +55,5 @@ Route::group(['prefix'=>'api/v1', 'middleware' => 'api'], function(){
     Route::get('restaurant/details/{restaurantID}', 'RestaurantsController@show');
     Route::get('restaurant/favorite/{restaurantID}', 'RestaurantsController@favorite');
     Route::get('restaurant/unfavorite/{restaurantID}', 'RestaurantsController@unfavorite');
+    Route::get('restaurants/favorites', 'RestaurantsController@showFavorites');
 });

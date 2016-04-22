@@ -13,15 +13,21 @@ class PhoneTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        $data = array(
-            [
-                'restaurant_id' => 1,
+        for($i=0;  $i<RESTAURANTS_NUMBER*2; $i++){
+
+            if( $i < RESTAURANTS_NUMBER){
+                $restaurantID = $i + 1;
+            }else{
+                $restaurantID = $i + 1 - RESTAURANTS_NUMBER;
+            }
+
+            Phone::insert([
+                'restaurant_id' => $restaurantID,
                 'phone'=> $faker->phoneNumber,
                 'description' => $faker->sentence(5),
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime()
-            ]
-        );
-        Phone::insert($data);
+            ]);
+        }
     }
 }
