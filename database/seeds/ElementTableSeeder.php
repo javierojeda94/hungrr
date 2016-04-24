@@ -14,21 +14,25 @@ class ElementTableSeeder extends Seeder
     {
         $sampleImagePath = 'images/elements/sample_element.png';
         $faker = Faker\Factory::create();
-        $elementsNumber = 10;
-        for($i = 0; $i < $elementsNumber; $i++){
-            $data = array(
-                [
-                    'description' => $faker->sentence(5),
-                    'name'=> $faker->word,
-                    'currency' => $faker->currencyCode,
-                    'image' => $sampleImagePath,
-                    'price' => $faker->randomFloat(5),
-                    'section_id' => rand(1,3),
-                    'created_at' => new DateTime(),
-                    'updated_at' => new DateTime()
-                ]
-            );
-            Element::insert($data);
+        $sectionsNumber = RESTAURANTS_NUMBER * 3;
+        for($i=0; $i<$sectionsNumber*2 ;$i++){
+            if( $i < $sectionsNumber){
+                $sectionID = $i + 1;
+            }else{
+                $sectionID = $i + 1 - $sectionsNumber;
+            }
+
+            Element::insert([
+                'description' => $faker->sentence(5),
+                'name'=> $faker->word,
+                'currency' => $faker->currencyCode,
+                'image' => $faker->imageUrl(),
+                'price' => $faker->randomFloat(5),
+                'section_id' => $sectionID,
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime()
+            ]);
+
         }
     }
 }

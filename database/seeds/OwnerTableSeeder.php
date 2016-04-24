@@ -18,13 +18,15 @@ class OwnerTableSeeder extends Seeder
             'name'=> $faker->firstName,
             'last_name' => $faker->lastName,
             'email' => $faker->email,
-            'image' => $sampleImagePath,
+            'image' => $faker->imageUrl(),
             'password' => bcrypt('password'),
             'remember_token' => null,
             'created_at' => new DateTime(),
             'updated_at' => new DateTime()
         );
         $owner = Owner::create($data);
-        $owner->restaurants()->attach(1);
+        for($i=0; $i<RESTAURANTS_NUMBER; $i++){
+            $owner->restaurants()->attach($i+1);
+        }
     }
 }

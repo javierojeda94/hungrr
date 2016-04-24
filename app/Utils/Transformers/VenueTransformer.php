@@ -8,7 +8,6 @@
 
 namespace app\Utils\Transformers;
 
-use ForceUTF8\Encoding;
 
 define('SPACE', ' ');
 define('FIRST', 0);
@@ -28,6 +27,7 @@ class VenueTransformer extends Transformer
 
     public function transform($venue)
     {
+
         return [
             'id' => $venue['id'],
             'name' => $venue['name'],
@@ -35,7 +35,10 @@ class VenueTransformer extends Transformer
             'longitude' => $venue['location']['lng'],
             'address' => $this->getAddress($venue),
             'type' =>  $this->getType($venue),
-            'image' => $this->getImageURL($venue)
+            'image' => $this->getImageURL($venue),
+            'phone_numbers' => [],
+            'schedules' => [],
+            'menus' => []
         ];
     }
 

@@ -46,7 +46,7 @@ class SessionController extends ApiController
             return $this->respondFound(['message' => 'User authenticated!']);
         }
         else{
-            return $this->respondNotAuthorized('Identification error. Check credentials and/or auth token.');
+            return $this->respondNotAuthorized('Identification error. Check credentials and/or auth token.' . $email . " -.-.-.-" . $password);
         }
     }
 

@@ -13,14 +13,15 @@ class MenuTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        $data = array(
-            [
-                'name'=> $faker->word,
-                'restaurant_id' => 1,
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime()
-            ]
-        );
-        Menu::insert($data);
+        for($i=0; $i<RESTAURANTS_NUMBER; $i++){
+            Menu::insert(
+                [
+                    'name'=> $faker->word,
+                    'restaurant_id' => $i + 1,
+                    'created_at' => new DateTime(),
+                    'updated_at' => new DateTime()
+                ]
+            );
+        }
     }
 }
