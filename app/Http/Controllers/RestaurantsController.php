@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Restaurant;
+use App\Phone;
 use App\Utils\Transformers\DetailedRestaurantTransformer;
 use App\Utils\Transformers\RestaurantTransformer;
 use App\Http\Requests;
@@ -31,9 +32,9 @@ class RestaurantsController extends ApiController
         $this->middleware('auth', ['only' => 'post']);
     }
 
-    public function showFavorites(){
-        $favorites = Auth::user()->restaurants();
-        $result = $this->restaurantTransformer->transformCollection($favorites->toArray());
+    public function showfavourites(){
+        $favourites = Auth::user()->restaurants;
+        $result = $this->restaurantTransformer->transformCollection($favourites->toArray());
         if( count($result) ){
             return $this->respondFound(['data' => $result]);
         }else{
@@ -99,14 +100,14 @@ class RestaurantsController extends ApiController
         }
     }
 
-    public function favorite($restaurantID){
-        $result = Auth::user()->restaurants()->attach($restaurantID);
-        return $this->respondCreated('Favorite Successfull ' . $result);
+    public function favourite($restaurantID){
+        Auth::user()->restaurants()->attach($restaurantID);
+        return $this->respondCreated('Favourite successfully added!');
     }
 
-    public function unfavorite($restaurantID){
-        $result = Auth::user()->restaurants()->detach($restaurantID);
-        return $this->respondCreated('Unfavorite Successfull ' . $result);
+    public function unfavourite($restaurantID){
+        Auth::user()->restaurants()->detach($restaurantID);
+        return $this->respondCreated('Favourite successfully removed!');
     }
 
     public function store(Request $request)
@@ -118,6 +119,10 @@ class RestaurantsController extends ApiController
         $restaurant->direction = $request->direction;
         $restaurant->type = $request->type;
         $restaurant->save();
+        $phone = new Phone;
+        $phone->restaurant_id = $restaurant->id;
+        $phone->phone = $request->phone;
+        $phone->description = $request->phone_description;
         if ($request->hasFile('image')) {
             Storage::put(
                 '/images/p_img_' . $restaurant->id . '.png', file_get_contents($request->file('image')->getRealPath())

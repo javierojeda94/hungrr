@@ -39,7 +39,7 @@ class RestaurantTransformer extends Transformer
             'address' => $restaurant['direction'],
             'type' => $restaurant['type'],
             'image' => $restaurant['image'],
-            'is_favorite' => $this->isFavorite($restaurant['id']),
+            'is_favourite' => $this->isFavourite($restaurant['id']),
             'source' => 'hungrr',
             'avg_price' => $this->getAveragePrice($restaurant['id']),
             'phone_numbers' => $this->getPhoneNumbers($restaurant['id']),
@@ -48,9 +48,9 @@ class RestaurantTransformer extends Transformer
 
     }
 
-    protected function isFavorite($restaurantID){
-        $restaurant = Auth::user()->restaurants()->where('restaurant_id','=',$restaurantID)->first();
-        return $restaurant != null;
+    protected function isFavourite($restaurantId){
+		$restaurant = Restaurant::find($restaurantId);
+		return Auth::user()->restaurants->contains($restaurant);
     }
 
     protected function getAveragePrice($restaurantID){

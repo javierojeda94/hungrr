@@ -19,8 +19,8 @@ function generate_token($user){
  */
 function distance($startLatitude, $startLongitude, $endLatitude, $endLongitude) {
     $theta = $startLongitude - $endLongitude;
-    $distance = sin(deg2rad($startLatitude)) * sin(deg2rad($endLatitude)) +
-        cos(deg2rad($startLatitude)) * cos(deg2rad($endLatitude)) * cos(deg2rad($theta));
+    $distance = sin(deg2rad(floatval($startLatitude))) * sin(deg2rad(floatval($endLatitude))) +
+        cos(deg2rad(floatval($startLatitude))) * cos(deg2rad(floatval($endLatitude))) * cos(deg2rad(floatval($theta)));
     $distance = acos($distance);
     $distance = rad2deg($distance);
     $miles = $distance * 60 * 1.1515;
