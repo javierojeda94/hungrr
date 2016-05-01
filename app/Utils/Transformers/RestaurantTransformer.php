@@ -54,6 +54,11 @@ class RestaurantTransformer extends Transformer
     }
 
     protected function getAveragePrice($restaurantID){
+		$restaurant = Restaurant::find($restaurantID);
+		return $restaurant->price;
+		/*
+		WAIT UNTIL THE MENUS CAN BE ADDED TO REALLY CALCULATE THIS AVERAGE
+		
         $result = DB::select(DB::raw(sprintf(QUERY_RESTAURANT_AVG_PRICE, $restaurantID)));
         $averagePrice = $result[FIRST_RESTAURANT]->avg_price;
         $restaurantHasMenus = $averagePrice!=null;
@@ -63,6 +68,7 @@ class RestaurantTransformer extends Transformer
         }else{
             return DEFAULT_AVG_PRICE;
         }
+		*/
     }
 
     protected function getPhoneNumbers($restaurantID){

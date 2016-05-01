@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use Storage;
 use Illuminate\Support\Facades\Input;
 
+define('SEARCH_RADIUS', 7000);
+
 class RestaurantsController extends ApiController
 {
 
