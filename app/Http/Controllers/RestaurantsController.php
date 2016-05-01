@@ -9,7 +9,7 @@ use App\Utils\Transformers\RestaurantTransformer;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Utils\Transformers\VenueTransformer;
-use App\FoursquareAPI;
+//use App\FoursquareAPI;
 use Illuminate\Support\Facades\Auth;
 use Storage;
 use Illuminate\Support\Facades\Input;
@@ -45,8 +45,8 @@ class RestaurantsController extends ApiController
     }
 
     public function findByLocation($latitude, $longitude){
-        $foursquareAPI = new FoursquareAPI();
-        $venues = $foursquareAPI->all($latitude, $longitude);
+        //$foursquareAPI = new FoursquareAPI();
+        //$venues = $foursquareAPI->all($latitude, $longitude);
         $restaurants = Restaurant::all();
         $restaurantsInArea = array();
         foreach($restaurants->toArray() as $restaurant){
@@ -54,15 +54,17 @@ class RestaurantsController extends ApiController
                 $restaurantsInArea[] = $restaurant;
             }
             if( count($restaurantsInArea) > 9){
-                break;
+                //break;
             }
         }
-        $result = array_merge(
-            $this->venuesTransformer->transformCollection($venues),
-            $this->restaurantTransformer->transformCollection($restaurantsInArea)
-        );
-        if( count($result) ){
-            return $this->respondFound(['data' => $result]);
+        //$result = array_merge(
+        //    $this->venuesTransformer->transformCollection($venues),
+        //    $this->restaurantTransformer->transformCollection($restaurantsInArea)
+        //);
+        //if( count($result) ){
+        if( count($restaurantsInArea) ){
+            return $this->respondFound(['data' => $this->restaurantTransformer->transformCollection($restaurantsInArea)]);
+            //return $this->respondFound(['data' => $result]);
         }else{
             return $this->respondNotFound('Restaurants not found near you');
         }
