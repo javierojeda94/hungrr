@@ -37,11 +37,7 @@ class RestaurantsController extends ApiController
     public function showfavourites(){
         $favourites = Auth::user()->restaurants;
         $result = $this->restaurantTransformer->transformCollection($favourites->toArray());
-        if( count($result) ){
-            return $this->respondFound(['data' => $result]);
-        }else{
-            return $this->respondNotFound('Restaurants not found near you');
-        }
+        return $this->respondFound(['data' => $result]);
     }
 
     public function findByLocation($latitude, $longitude){
