@@ -1,6 +1,7 @@
 <?php
 
 use App\Schedule;
+use App\Restaurant;
 use Illuminate\Database\Seeder;
 
 class ScheduleTableSeeder extends Seeder
@@ -13,7 +14,8 @@ class ScheduleTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        for($i=0; $i<RESTAURANTS_NUMBER*2; $i++){
+        $restaurants = Restaurant::all();
+        foreach( $restaurants as $restaurant ){
             $data = array(
                 'hour_init' => rand(0,23),
                 'hour_finish' => rand(0,23),
@@ -22,11 +24,7 @@ class ScheduleTableSeeder extends Seeder
                 'updated_at' => new DateTime()
             );
             $schedule = Schedule::create($data);
-            if( $i < RESTAURANTS_NUMBER){
-                $schedule->restaurants()->attach($i+1);
-            }else{
-                $schedule->restaurants()->attach($i + 1 - RESTAURANTS_NUMBER);
-            }
+            $schedule->restaurants()->attach($restaurant->id);
         }
     }
 }

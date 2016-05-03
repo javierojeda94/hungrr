@@ -1,7 +1,10 @@
 <?php
 
 use App\Section;
+use App\Menu;
 use Illuminate\Database\Seeder;
+
+define('SECTIONS_PER_MENU', 3);
 
 class SectionTableSeeder extends Seeder
 {
@@ -13,22 +16,16 @@ class SectionTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        for($i=0; $i<RESTAURANTS_NUMBER*3; $i++){
-
-            if($i < RESTAURANTS_NUMBER){
-                $menuID = $i + 1;
-            }else if($i < RESTAURANTS_NUMBER*2){
-                $menuID = $i + 1 - RESTAURANTS_NUMBER;
-            }else{
-                $menuID = $i + 1 - RESTAURANTS_NUMBER*2;
+        $menus = Menu::all();
+        foreach($menus as $menu){
+            for($i = 0; $i < SECTIONS_PER_MENU; $i++){
+                Section::insert( [
+                    'name'=> $faker->randomElement( ['Entradas', 'Comidas', 'Postres', 'Desayunos', 'Del Dia', 'Bebidas'] ),
+                    'menu_id' => $menu->id,
+                    'created_at' => new DateTime(),
+                    'updated_at' => new DateTime()
+                ]);
             }
-
-            Section::insert( [
-                'name'=> $faker->word,
-                'menu_id' => $menuID,
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime()
-            ]);
         }
     }
 }

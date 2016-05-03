@@ -2,7 +2,10 @@
 
 use App\Element;
 use App\Restaurant;
+use App\Section;
 use Illuminate\Database\Seeder;
+
+define('ELEMENTS_PER_SECTION', 2);
 
 class ElementTableSeeder extends Seeder
 {
@@ -14,26 +17,64 @@ class ElementTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        $sectionsNumber = RESTAURANTS_NUMBER * 3;
-        for($i=0; $i<$sectionsNumber*2 ;$i++){
-            if( $i < $sectionsNumber){
-                $sectionID = $i + 1;
-            }else{
-                $sectionID = $i + 1 - $sectionsNumber;
+        $sections = Section::all();
+        foreach($sections as $section){
+            for($i = 0; $i < ELEMENTS_PER_SECTION; $i++){
+                Element::insert([
+                    'description' => $this->getDescription($section->name),
+                    'name'=> $faker->randomElement($this->getWordDictionary()[$section->name]),
+                    'currency' => 'MXN',
+                    'image' => $faker->imageUrl(),
+                    'type' => $this->getType($section->name),
+                    'price' => $faker->randomFloat(5),
+                    'section_id' => $section->id,
+                    'created_at' => new DateTime(),
+                    'updated_at' => new DateTime()
+                ]);
             }
+        }
+    }
 
-            Element::insert([
-                'description' => $faker->sentence(5),
-                'name'=> $faker->word,
-                'currency' => $faker->currencyCode,
-                'image' => $faker->imageUrl(),
-                'type' => $faker->randomElement(['bebida','comida', 'postre', 'complemento']),
-                'price' => $faker->randomFloat(5),
-                'section_id' => $sectionID,
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime()
-            ]);
+    public function getWordDictionary( ){
+        return array(
+            'Entradas' => array('Pasta', 'Arroz Blanco', 'Puré de Papa', 'Rollo Primavera', 'Arroz Frito', 'Sopa de Pollo',
+                'Pan con aderezo', 'Totopos con Guacamole'),
+            'Comidas' => array('Costillas Asadas', 'Hamburguesa Grill', 'Arrachera Asada', 'Pollo a la Plancha', 'Pechuga Parmesana',
+                'Ensalada César', 'Bisteces a la Mexicana', 'Pollo a la naranja', 'Pozole', 'Mondongo', 'Salbutes', 'Huaraches',
+                'Burrito Grande', 'Tacos Dorados', 'Sushi', 'Fajitas de Pollo', 'Poc Chuc', 'Barbacoa', 'Cochinita', 'Frijol con Puerco'),
+            'Postres' => array('Helado de Fresa', 'Helado de Vainilla','Helado de Chocolate','Helado de Napolitano','Helado de Chocomenta','
+            Helado de Guanabana', 'Helado de Coco','Helado de Chocochips','Helado de Limon','Helado de Oreo','Helado de Yoghurt',
+                'Galleta de Chispas de Chocolate', 'Rebanada de Pay de Limon', 'Rebanada de Pastel', 'Rebanada de Volteado de Piña'),
+            'Desayunos' => array('Huevos Motuleños', 'Hot Cakes', 'Waffles', 'Cóctel de Frutas', 'Cereal con Frutas', 'Batido de Herbalife'),
+            'Del Dia' => array('Costillas Asadas', 'Hamburguesa Grill', 'Arrachera Asada', 'Pollo a la Plancha', 'Pechuga Parmesana',
+                'Ensalada César', 'Bisteces a la Mexicana', 'Pollo a la naranja', 'Pozole', 'Mondongo', 'Salbutes', 'Huaraches',
+                'Burrito Grande', 'Tacos Dorados', 'Sushi', 'Fajitas de Pollo', 'Poc Chuc', 'Barbacoa', 'Cochinita', 'Frijol con Puerco'),
+            'Bebidas' => array('XX-Lagger', 'Refresco de Cola', 'Refresco de Lata', 'Agua Natural', 'Limonada Rosa!', 'Cerveza',
+                'Agua Natural', 'Té')
+        );
+    }
 
+    public function getType($sectionName){
+        if( strcmp($sectionName, 'Entradas') == 0){
+            return 'complemento';
+        } else if(strcmp($sectionName, 'Postres') == 0){
+            return 'postre';
+        }else if(strcmp($sectionName, 'Bebidas') == 0){
+            return 'bebida';
+        }else{
+            return 'comida';
+        }
+    }
+
+    private function getDescription($sectionName){
+        if( strcmp($sectionName, 'Entradas') == 0){
+            return 'Complemento perfecto para acompañar tu comida principal 200gr.';
+        } else if(strcmp($sectionName, 'Postres') == 0){
+            return 'Delicioso postre cuya dulzura te cautivará.';
+        }else if(strcmp($sectionName, 'Bebidas') == 0){
+            return 'Bebida refrescante no rellenable.';
+        }else{
+            return 'Comida principal preparada con los mas finos ingredientes naturales.';
         }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Phone;
+use App\Restaurant;
 use Illuminate\Database\Seeder;
 
 class PhoneTableSeeder extends Seeder
@@ -13,16 +14,10 @@ class PhoneTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        for($i=0;  $i<RESTAURANTS_NUMBER*2; $i++){
-
-            if( $i < RESTAURANTS_NUMBER){
-                $restaurantID = $i + 1;
-            }else{
-                $restaurantID = $i + 1 - RESTAURANTS_NUMBER;
-            }
-
+        $restaurants = Restaurant::all();
+        foreach( $restaurants as $restaurant ){
             Phone::insert([
-                'restaurant_id' => $restaurantID,
+                'restaurant_id' => $restaurant->id,
                 'phone'=> $faker->phoneNumber,
                 'description' => $faker->sentence(5),
                 'created_at' => new DateTime(),

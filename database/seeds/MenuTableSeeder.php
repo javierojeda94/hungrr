@@ -1,6 +1,7 @@
 <?php
 
 use App\Menu;
+use App\Restaurant;
 use Illuminate\Database\Seeder;
 
 class MenuTableSeeder extends Seeder
@@ -13,11 +14,12 @@ class MenuTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        for($i=0; $i<RESTAURANTS_NUMBER; $i++){
+        $restaurants = Restaurant::all();
+        foreach( $restaurants as $restaurant ){
             Menu::insert(
                 [
-                    'name'=> $faker->word,
-                    'restaurant_id' => $i + 1,
+                    'name'=> 'Menú de ' . $restaurant->name,
+                    'restaurant_id' => $restaurant->id,
                     'created_at' => new DateTime(),
                     'updated_at' => new DateTime()
                 ]

@@ -6,7 +6,7 @@
  * Time: 08:52 PM
  */
 
-namespace app\Utils\Transformers;
+namespace App\Utils\Transformers;
 
 
 define('SPACE', ' ');
@@ -27,7 +27,6 @@ class VenueTransformer extends Transformer
 
     public function transform($venue)
     {
-
         return [
             'id' => $venue['id'],
             'name' => $venue['name'],

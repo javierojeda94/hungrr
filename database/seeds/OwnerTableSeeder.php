@@ -1,6 +1,7 @@
 <?php
 
 use App\Owner;
+use App\Restaurant;
 use Illuminate\Database\Seeder;
 
 class OwnerTableSeeder extends Seeder
@@ -12,7 +13,6 @@ class OwnerTableSeeder extends Seeder
      */
     public function run()
     {
-        $sampleImagePath = 'images/owners/sample_owner.png';
         $faker = Faker\Factory::create();
         $data = array(
             'name'=> $faker->firstName,
@@ -25,8 +25,9 @@ class OwnerTableSeeder extends Seeder
             'updated_at' => new DateTime()
         );
         $owner = Owner::create($data);
-        for($i=0; $i<RESTAURANTS_NUMBER; $i++){
-            $owner->restaurants()->attach($i+1);
+        $restaurants = Restaurant::all();
+        foreach( $restaurants as $restaurant ){
+            $owner->restaurants()->attach($restaurant->id);
         }
     }
 }
