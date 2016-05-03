@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="36c69e74-36ae-4e99-8320-7e4019bca739" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/ElementTableSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/ElementTableSeeder.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/RestaurantTableSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/RestaurantTableSeeder.php" />
     </list>
     <ignored path="hungrr.iws" />
@@ -53,8 +52,8 @@
       <file leaf-file-name="RestaurantTableSeeder.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/database/seeds/RestaurantTableSeeder.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-119">
-              <caret line="17" column="52" selection-start-line="17" selection-start-column="52" selection-end-line="17" selection-end-column="52" />
+            <state relative-caret-position="61">
+              <caret line="58" column="39" selection-start-line="58" selection-start-column="39" selection-end-line="58" selection-end-column="39" />
               <folding>
                 <element signature="e#7#26#0#PHP" expanded="true" />
               </folding>
@@ -565,12 +564,12 @@
       <updated>1455757201746</updated>
       <workItem from="1461510976026" duration="2020000" />
       <workItem from="1462241935765" duration="16413000" />
-      <workItem from="1462290994399" duration="1356000" />
+      <workItem from="1462290994399" duration="2072000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19789000" />
+    <option name="totallyTimeSpent" value="20505000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -985,8 +984,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/database/seeds/RestaurantTableSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-119">
-          <caret line="17" column="52" selection-start-line="17" selection-start-column="52" selection-end-line="17" selection-end-column="52" />
+        <state relative-caret-position="61">
+          <caret line="58" column="39" selection-start-line="58" selection-start-column="39" selection-end-line="58" selection-end-column="39" />
           <folding>
             <element signature="e#7#26#0#PHP" expanded="true" />
           </folding>
