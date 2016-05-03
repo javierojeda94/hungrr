@@ -23,6 +23,7 @@ class CreateRestaurantUserTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+            $table->unique(array('restaurant_id', 'user_id'));
             $table->timestamps();
         });
     }

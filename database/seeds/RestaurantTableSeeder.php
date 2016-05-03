@@ -3,7 +3,7 @@
 use App\Restaurant;
 use Illuminate\Database\Seeder;
 
-define('RESTAURANTS_NUMBER', 1000);
+define('RESTAURANTS_NUMBER', 5);
 
 class RestaurantTableSeeder extends Seeder
 {

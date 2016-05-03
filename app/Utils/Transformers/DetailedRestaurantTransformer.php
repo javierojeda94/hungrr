@@ -53,6 +53,7 @@ class DetailedRestaurantTransformer extends RestaurantTransformer
             'name' => $element['name'],
             'description' => $element['description'],
             'currency' => $element['currency'],
+            'type' => $element['type'],
             'image' => asset($element['image']),
             'price' => $element['price']
         );

@@ -7,6 +7,7 @@ use App\Phone;
 use App\Utils\Transformers\DetailedRestaurantTransformer;
 use App\Utils\Transformers\RestaurantTransformer;
 use App\Http\Requests;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Utils\Transformers\VenueTransformer;
 //use App\FoursquareAPI;
@@ -15,6 +16,7 @@ use Storage;
 use Illuminate\Support\Facades\Input;
 
 define('SEARCH_RADIUS', 7000);
+define('RESULTS_NUMBER', 20);
 
 class RestaurantsController extends ApiController
 {
@@ -73,7 +75,7 @@ class RestaurantsController extends ApiController
             if( distance($restaurant['latitude'], $restaurant['longitude'], $latitude, $longitude) < SEARCH_RADIUS ){
                 $restaurantsInArea[] = $restaurant;
             }
-            if( count($restaurantsInArea) > 9){
+            if( count($restaurantsInArea) == RESULTS_NUMBER){
                 break;
             }
         }
@@ -101,7 +103,11 @@ class RestaurantsController extends ApiController
     }
 
     public function favourite($restaurantID){
-        Auth::user()->restaurants()->attach($restaurantID);
+        try{
+            Auth::user()->restaurants()->attach($restaurantID);
+        }catch(QueryException $queryException){
+            return $this->respondWithConflict('User already has that favourite!');
+        }
         return $this->respondCreated('Favourite successfully added!');
     }
 

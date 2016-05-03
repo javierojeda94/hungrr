@@ -1,6 +1,7 @@
 <?php
 
 use App\Element;
+use App\Restaurant;
 use Illuminate\Database\Seeder;
 
 class ElementTableSeeder extends Seeder
@@ -12,7 +13,6 @@ class ElementTableSeeder extends Seeder
      */
     public function run()
     {
-        $sampleImagePath = 'images/elements/sample_element.png';
         $faker = Faker\Factory::create();
         $sectionsNumber = RESTAURANTS_NUMBER * 3;
         for($i=0; $i<$sectionsNumber*2 ;$i++){
@@ -27,6 +27,7 @@ class ElementTableSeeder extends Seeder
                 'name'=> $faker->word,
                 'currency' => $faker->currencyCode,
                 'image' => $faker->imageUrl(),
+                'type' => $faker->randomElement(['bebida','comida', 'postre', 'complemento']),
                 'price' => $faker->randomFloat(5),
                 'section_id' => $sectionID,
                 'created_at' => new DateTime(),

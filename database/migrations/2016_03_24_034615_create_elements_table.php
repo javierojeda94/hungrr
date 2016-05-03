@@ -18,6 +18,7 @@ class CreateElementsTable extends Migration
             $table->string('name');
             $table->string('currency');
             $table->string('image');
+            $table->string('type');
             $table->decimal('price',5,2);
             $table->integer('section_id')->unsigned();
             $table->foreign('section_id')

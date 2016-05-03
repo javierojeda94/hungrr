@@ -51,6 +51,11 @@ class ApiController extends Controller
         return $this->setStatusCode(HTTPResponse::HTTP_CREATED)->respondWithSuccess($message, $token);
     }
 
+    protected function respondWithConflict($message = 'Conflictive Entity!')
+    {
+        return $this->setStatusCode(HTTPResponse::HTTP_CONFLICT)->respondWithError($message);
+    }
+
     protected function respondNotFound($message = 'Not Found!')
     {
         return $this->setStatusCode(HTTPResponse::HTTP_NOT_FOUND)->respondWithError($message);
