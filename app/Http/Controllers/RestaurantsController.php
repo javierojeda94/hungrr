@@ -51,8 +51,8 @@ class RestaurantsController extends ApiController
             if( distance($restaurant['latitude'], $restaurant['longitude'], $latitude, $longitude) < SEARCH_RADIUS ){
                 $restaurantsInArea[] = $restaurant;
             }
-            if( count($restaurantsInArea) > 9){
-                //break;
+            if( count($restaurantsInArea) == RESULTS_NUMBER){
+                break;
             }
         }
         //$result = array_merge(

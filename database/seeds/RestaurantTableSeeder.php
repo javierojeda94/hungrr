@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 use App\FoursquareAPI;
 use App\Utils\Transformers\VenueTransformer;
 
-define('RESTAURANTS_NUMBER', 5);
+define('RESTAURANTS_NUMBER', 10);
 
 class RestaurantTableSeeder extends Seeder
 {
