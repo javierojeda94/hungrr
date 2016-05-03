@@ -29,7 +29,7 @@ class ElementTableSeeder extends Seeder
                     'currency' => 'MXN',
                     'image' => $faker->imageUrl(),
                     'type' => $this->getType($section->name),
-                    'price' => $faker->randomFloat(2, 0, 1000),
+                    'price' => $this->getPrice($faker, $section->name),
                     'section_id' => $section->id,
                     'created_at' => new DateTime(),
                     'updated_at' => new DateTime()
@@ -38,7 +38,21 @@ class ElementTableSeeder extends Seeder
         }
     }
 
-    public function getItemDictionary( ){
+    private function getPrice($faker, $sectionName){
+        if( strcmp($sectionName, SECTION_NAME_ENTRADAS) == 0){
+            return $faker->randomFloat(2, 50, 150);
+        } else if(strcmp($sectionName, SECTION_NAME_POSTRES) == 0){
+            return $faker->randomFloat(2, 30, 300);
+        }else if(strcmp($sectionName, SECTION_NAME_BEBIDAS) == 0){
+            return $faker->randomFloat(2, 10, 60);
+        }else if( strcmp($sectionName, SECTION_NAME_DESAYUNOS) == 0){
+            return $faker->randomFloat(2, 50, 500);
+        }else{
+            return $faker->randomFloat(2, 50, 1000);
+        }
+    }
+
+    private function getItemDictionary(){
         return array(
             SECTION_NAME_ENTRADAS => array('Pasta', 'Arroz Blanco', 'Puré de Papa', 'Rollo Primavera', 'Arroz Frito', 'Sopa de Pollo',
                 'Pan con aderezo', 'Totopos con Guacamole'),
@@ -57,7 +71,7 @@ class ElementTableSeeder extends Seeder
         );
     }
 
-    public function getType($sectionName){
+    private function getType($sectionName){
         if( strcmp($sectionName, SECTION_NAME_ENTRADAS) == 0){
             return 'complemento';
         } else if(strcmp($sectionName, SECTION_NAME_POSTRES) == 0){
