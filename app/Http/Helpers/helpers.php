@@ -27,3 +27,39 @@ function distance($startLatitude, $startLongitude, $endLatitude, $endLongitude) 
     $miles = $distance * 60 * 1.1515;
     return ($miles * 1.609344)*1000;
 }
+
+/**
+ * Delimitates the min/max lat/lng for distance based search
+ * Snippet from: http://www.michael-pratt.com/blog/7/Encontrar-Lugares-cercanos-con-MySQL-y-PHP/
+ * @param $lat
+ * @param $lng
+ * @param int $distance
+ * @param int $earthRadius
+ * @return array
+ */
+function getConstraints($lat, $lng, $distance = 1000, $earthRadius = 6371)
+{
+    $constraints = array();
+    $cardinalCoords = array(
+        'north' => '0',
+        'south' => '180',
+        'east' => '90',
+        'west' => '270');
+    $rLat = deg2rad($lat);
+    $rLng = deg2rad($lng);
+    $rAngDist = (($distance/1000)/$earthRadius);
+    foreach ($cardinalCoords as $name => $angle)
+    {
+        $rAngle = deg2rad($angle);
+        $rLatB = asin(sin($rLat) * cos($rAngDist) + cos($rLat) * sin($rAngDist) * cos($rAngle));
+        $rLonB = $rLng + atan2(sin($rAngle) * sin($rAngDist) * cos($rLat), cos($rAngDist) - sin($rLat) * sin($rLatB));
+        $constraints[$name] = array('lat' => (float) rad2deg($rLatB),
+            'lng' => (float) rad2deg($rLonB));
+    }
+    return
+        array(
+            'min_lat' => $constraints['south']['lat'],
+            'max_lat' => $constraints['north']['lat'],
+            'min_lng' => $constraints['west']['lng'],
+            'max_lng' => $constraints['east']['lng']);
+}

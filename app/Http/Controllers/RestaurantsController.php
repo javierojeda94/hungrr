@@ -9,8 +9,6 @@ use App\Utils\Transformers\RestaurantTransformer;
 use App\Http\Requests;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use App\Utils\Transformers\VenueTransformer;
-//use App\FoursquareAPI;
 use Illuminate\Support\Facades\Auth;
 use Storage;
 use Illuminate\Support\Facades\Input;
@@ -20,19 +18,13 @@ define('RESULTS_NUMBER', 20);
 
 class RestaurantsController extends ApiController
 {
-
-    /**
-     * @var RestaurantTransformer
-     */
     protected $restaurantTransformer;
-    protected $venuesTransformer;
     protected $detailedRestaurantTransformer;
 
     public function __construct()
     {
         $this->restaurantTransformer = new RestaurantTransformer();
         $this->detailedRestaurantTransformer = new DetailedRestaurantTransformer();
-        $this->venuesTransformer = new VenueTransformer();
         $this->middleware('auth', ['only' => 'post']);
     }
 
@@ -43,8 +35,6 @@ class RestaurantsController extends ApiController
     }
 
     public function findByLocation($latitude, $longitude){
-        //$foursquareAPI = new FoursquareAPI();
-        //$venues = $foursquareAPI->all($latitude, $longitude);
         $restaurants = Restaurant::all();
         $restaurantsInArea = array();
         foreach($restaurants->toArray() as $restaurant){
@@ -55,14 +45,8 @@ class RestaurantsController extends ApiController
                 break;
             }
         }
-        //$result = array_merge(
-        //    $this->venuesTransformer->transformCollection($venues),
-        //    $this->restaurantTransformer->transformCollection($restaurantsInArea)
-        //);
-        //if( count($result) ){
         if( count($restaurantsInArea) ){
             return $this->respondFound(['data' => $this->restaurantTransformer->transformCollection($restaurantsInArea)]);
-            //return $this->respondFound(['data' => $result]);
         }else{
             return $this->respondNotFound('Restaurants not found near you');
         }

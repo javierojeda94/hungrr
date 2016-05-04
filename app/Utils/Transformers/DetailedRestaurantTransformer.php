@@ -6,7 +6,7 @@
  * Time: 03:18 PM
  */
 
-namespace app\Utils\Transformers;
+namespace App\Utils\Transformers;
 
 
 class DetailedRestaurantTransformer extends RestaurantTransformer
