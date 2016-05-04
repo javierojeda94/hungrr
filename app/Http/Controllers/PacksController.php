@@ -65,7 +65,7 @@ class PackController extends ApiController
     }
 
     /**
-     * Acaba de morir Code Complete, TODO: Refactorizar y si es posible, optimizar
+     * RIP Code Complete, TODO: Refactor and if possible optimize
      * @param $restaurant
      * @param $budgetMin
      * @param $budgetMax

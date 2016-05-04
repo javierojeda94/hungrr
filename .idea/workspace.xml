@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="36c69e74-36ae-4e99-8320-7e4019bca739" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Utils/Transformers/PackRestaurantTransformer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/RestaurantsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/RestaurantsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Helpers/helpers.php" afterPath="$PROJECT_DIR$/app/Http/Helpers/helpers.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Utils/Transformers/DetailedRestaurantTransformer.php" afterPath="$PROJECT_DIR$/app/Utils/Transformers/DetailedRestaurantTransformer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/Http/Controllers/PackController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PacksController.php" />
     </list>
     <ignored path="hungrr.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PackController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PackController.php">
+      <file leaf-file-name="PacksController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PacksController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1033">
-              <caret line="167" column="13" selection-start-line="167" selection-start-column="13" selection-end-line="167" selection-end-column="13" />
+            <state relative-caret-position="-72">
+              <caret line="63" column="34" selection-start-line="63" selection-start-column="34" selection-end-line="63" selection-end-column="34" />
               <folding>
                 <element signature="e#40#93#0#PHP" expanded="true" />
               </folding>
@@ -151,7 +145,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/database/migrations/2016_03_24_025317_create_owners_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_03_24_034925_create_restaurant_schedule_table.php" />
         <option value="$PROJECT_DIR$/app/Element.php" />
         <option value="$PROJECT_DIR$/app/Schedule.php" />
@@ -202,6 +195,7 @@
         <option value="$PROJECT_DIR$/app/Utils/Transformers/PackRestaurantTransformer.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RestaurantsController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/PackController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/PacksController.php" />
       </list>
     </option>
   </component>
@@ -630,12 +624,12 @@
       <workItem from="1462241935765" duration="16413000" />
       <workItem from="1462290994399" duration="3269000" />
       <workItem from="1462302477013" duration="2739000" />
-      <workItem from="1462330549974" duration="16898000" />
+      <workItem from="1462330549974" duration="17484000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41339000" />
+    <option name="totallyTimeSpent" value="41925000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -1061,10 +1055,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PackController.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PacksController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1033">
-          <caret line="167" column="13" selection-start-line="167" selection-start-column="13" selection-end-line="167" selection-end-column="13" />
+        <state relative-caret-position="-72">
+          <caret line="63" column="34" selection-start-line="63" selection-start-column="34" selection-end-line="63" selection-end-column="34" />
           <folding>
             <element signature="e#40#93#0#PHP" expanded="true" />
           </folding>
