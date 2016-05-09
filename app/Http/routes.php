@@ -35,11 +35,11 @@ Route::get('/images/{filename}', function ($filename) {
 */
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Route::get('/','RestaurantsWebController@index');
     Route::auth();
-    Route::get('/home', 'HomeController@index');
+    Route::get('/home', 'RestaurantsWebController@index');
+    Route::resource('restaurants', 'RestaurantsWebController');
+    Route::get('/add', 'RestaurantsWebController@addRestaurant');
 });
 
 // , 'middleware' => 'api'

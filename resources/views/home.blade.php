@@ -55,6 +55,7 @@
 
                     <div class="panel-body">
                         Ésta es tu página de inicio
+                        <a class="btn btn-primary" href="{{ url('/add') }}">Añadir restaurant</a>
                     </div>
                 </div>
             </div>
