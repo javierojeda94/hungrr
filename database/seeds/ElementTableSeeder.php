@@ -27,7 +27,7 @@ class ElementTableSeeder extends Seeder
                     'description' => $this->getDescription($section->name),
                     'name'=> $itemName,
                     'currency' => 'MXN',
-                    'image' => $faker->imageUrl(),
+                    'image' => $faker->imageUrl($width = 300, $height = 300, 'food'),
                     'type' => $this->getType($section->name),
                     'price' => $this->getPrice($faker, $section->name),
                     'section_id' => $section->id,
@@ -61,12 +61,12 @@ class ElementTableSeeder extends Seeder
                 'Burrito Grande', 'Tacos Dorados', 'Sushi', 'Fajitas de Pollo', 'Poc Chuc', 'Barbacoa', 'Cochinita', 'Frijol con Puerco'),
             SECTION_NAME_POSTRES => array('Helado de Fresa', 'Helado de Vainilla','Helado de Chocolate','Helado de Napolitano','Helado de Chocomenta','
             Helado de Guanabana', 'Helado de Coco','Helado de Chocochips','Helado de Limon','Helado de Oreo','Helado de Yoghurt',
-                'Galleta de Chispas de Chocolate', 'Rebanada de Pay de Limon', 'Rebanada de Pastel', 'Rebanada de Volteado de Piña'),
-            SECTION_NAME_DESAYUNOS => array('Huevos Motuleños', 'Hot Cakes', 'Waffles', 'Cóctel de Frutas', 'Cereal con Frutas', 'Batido de Herbalife'),
-            'Del Dia' => array('Costillas Asadas', 'Hamburguesa Grill', 'Arrachera Asada', 'Pollo a la Plancha', 'Pechuga Parmesana',
+                'Galleta de Chispas de Chocolate', 'Rebanada de Pay de Limon', 'Rebanada de Pastel', 'Rebanada de Volteado de Piña', 'Batido de Herbalife'),
+            SECTION_NAME_DESAYUNOS => array('Huevos Motuleños', 'Hot Cakes', 'Waffles', 'Cóctel de Frutas', 'Cereal con Frutas'),
+            SECTION_NAME_DEL_DIA => array('Costillas Asadas', 'Hamburguesa Grill', 'Arrachera Asada', 'Pollo a la Plancha', 'Pechuga Parmesana',
                 'Ensalada César', 'Bisteces a la Mexicana', 'Pollo a la naranja', 'Pozole', 'Mondongo', 'Salbutes', 'Huaraches',
                 'Burrito Grande', 'Tacos Dorados', 'Sushi', 'Fajitas de Pollo', 'Poc Chuc', 'Barbacoa', 'Cochinita', 'Frijol con Puerco'),
-            SECTION_NAME_BEBIDAS => array('XX-Lagger', 'Refresco de Cola', 'Refresco de Lata', 'Agua Natural', 'Limonada Rosa!', 'Cerveza',
+            SECTION_NAME_BEBIDAS => array('XX-Lagger', 'Refresco de Cola', 'Refresco de Lata', 'Agua Natural', 'Limonada Rosa', 'Cerveza',
                 'Agua Natural', 'Té')
         );
     }
@@ -91,7 +91,7 @@ class ElementTableSeeder extends Seeder
         }else if(strcmp($sectionName, SECTION_NAME_BEBIDAS) == 0){
             return 'Bebida refrescante no rellenable.';
         }else if( strcmp($sectionName, SECTION_NAME_DESAYUNOS) == 0){
-            return 'Desayuno completo con uuna buena cantidad de proteina.';
+            return 'Desayuno completo con una buena cantidad de proteina.';
         }else if( strcmp($sectionName, SECTION_NAME_DEL_DIA) == 0 ){
             return 'Comida principal del dia';
         }else{

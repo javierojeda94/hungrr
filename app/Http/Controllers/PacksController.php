@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Element;
 use App\Utils\Transformers\PackRestaurantTransformer;
 use App\Http\Requests;
 use App\Restaurant;
@@ -21,17 +22,21 @@ class PackController extends ApiController
         $this->middleware('auth', ['only' => 'post']);
     }
 
-    public function findByLocationAndBudget($latitude, $longitude, $budgetMin, $budgetMax){
-        $candidates = $this->getRestaurantsByLocation($latitude, $longitude, SEARCH_RADIUS);
+    public function findByLocationAndBudget($latitude, $longitude, $budgetMin, $budgetMax, $random){
+        $restaurants = $this->getRestaurantsByLocation($latitude, $longitude, SEARCH_RADIUS);
         $restaurantsWithPacks = array();
-        foreach($candidates as $current){
-            $packs = $this->getPacksByBudget($current, $budgetMin, $budgetMax);
-            if( count($packs) > 0 ){
-                $current['packs'] = $packs;
-                $restaurantsWithPacks[] = $this->packRestaurantTransformer->transform( $current );
+        foreach($restaurants as $restaurant){
+            $packMaker = new PackMaker($restaurant, $budgetMin, $budgetMax);
+            $packs = $packMaker->getAll( MAX_PACK_PER_RESTAURANT , $random);
+
+            $restaurantHasPacks = count($packs) > 0;
+
+            if( $restaurantHasPacks ){
+                $restaurant['packs'] = $packs;
+                $restaurantsWithPacks[] = $this->packRestaurantTransformer->transform( $restaurant );
             }
         }
-        if( count($restaurantsWithPacks) ){
+        if( count($restaurantsWithPacks) > 0 ){
             return $this->respondFound(['data' => $restaurantsWithPacks]);
         }else{
             return $this->respondNotFound('No Combos found with your search criteria');
@@ -63,131 +68,149 @@ class PackController extends ApiController
         }
         return $restaurantsInArea;
     }
+}
+define('MAX_INTENTS_LIMIT', 30);
+class PackMaker{
 
-    /**
-     * RIP Code Complete, TODO: Refactor and if possible optimize
-     * @param $restaurant
-     * @param $budgetMin
-     * @param $budgetMax
-     * @return array
-     */
-    private function getPacksByBudget($restaurant, $budgetMin, $budgetMax){
-        $elements = $this->getElementsByMaxBudget($restaurant, $budgetMax);
+    private $packs;
+    private $restaurant;
+    private $minBudget;
+    private $maxBudget;
+
+    public function __construct($restaurant, $minBudget, $maxBudget)
+    {
+        $this->restaurant = $restaurant;
+        $this->minBudget = $minBudget;
+        $this->maxBudget = $maxBudget;
+        $this->packs = array();
+    }
+
+    public function getAll($limit = 100, $shuffle = false){
+        $elements = $this->getElementsByMaxBudget();
+
         if(count($elements) == 0){
             return [];
         }
-        $packs = array();
 
         $beveragesAvailable = isset($elements['bebida']) && count($elements['bebida'])>0;
         $foodsAvailable = isset($elements['comida']) && count($elements['comida'])>0;
-        $complementsAvailable = isset($elements['complemento']) && count($elements['complemento'])>0;
-        $dessertsAvailable = isset($elements['postre']) && count($elements['postre'])>0;
 
-        if( $beveragesAvailable && $foodsAvailable ){
-            $beverages = $elements['bebida'];
-            $foods = $elements['comida'];
-            foreach( $beverages as $beverage ){
-                foreach( $foods as $food ){
-                    $packPrice = $beverage['price'] + $food['price'];
-                    if( $packPrice < $budgetMax ){
-                        if( $complementsAvailable ){
-                            $complements = $elements['complemento'];
-                            foreach( $complements as $complement ){
-                                $packPrice = $beverage['price'] + $food['price'] + $complement['price'];
-                                if($packPrice < $budgetMax){
-                                    if( $dessertsAvailable ){
-                                        $desserts = $elements['postre'];
-                                        foreach( $desserts as $dessert ){
-                                            $packPrice = $beverage['price'] + $food['price'] + $complement['price'] + $dessert['price'];
-                                            if( $packPrice < $budgetMax && $packPrice > $budgetMin ){
-                                                $packs[] = array(
-                                                    'price' => $packPrice,
-                                                    'name' => 'COMBO #'. (count($packs) + 1),
-                                                    'description' => 'Bebida + Comida + Complemento + Postre',
-                                                    'elements' => array(
-                                                        $beverage, $food, $complement, $dessert
-                                                    )
-                                                );
-                                                if( count($packs) >= MAX_PACK_PER_RESTAURANT ){
-                                                    return $packs;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if( $packPrice > $budgetMin ){
-                                        $packs[] = array(
-                                            'price' => $packPrice,
-                                            'name' => 'COMBO #'. (count($packs) + 1),
-                                            'description' => 'Bebida + Comida + Complemento',
-                                            'elements' => array(
-                                                $beverage, $food, $complement
-                                            )
-                                        );
-                                        if( count($packs) >= MAX_PACK_PER_RESTAURANT ){
-                                            return $packs;
-                                        }
-                                    }
-                                }
-                            }
-
-                            if( $dessertsAvailable ){
-                                $desserts = $elements['postre'];
-                                foreach( $desserts as $dessert ){
-                                    $packPrice = $beverage['price'] + $food['price'] + $dessert['price'];
-                                    if( $packPrice < $budgetMax && $packPrice > $budgetMin ){
-                                        $packs[] = array(
-                                            'price' => $packPrice,
-                                            'name' => 'COMBO #'. (count($packs) + 1),
-                                            'description' => 'Bebida + Comida + Postre',
-                                            'elements' => array(
-                                                $beverage, $food, $dessert
-                                            )
-                                        );
-                                        if( count($packs) >= MAX_PACK_PER_RESTAURANT ){
-                                            return $packs;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        if ($packPrice > $budgetMin){
-                            $packs[] = array(
-                                'price' => $packPrice,
-                                'name' => 'COMBO #'. (count($packs) + 1),
-                                'description' => 'Bebida + Comida',
-                                'elements' => array(
-                                    $beverage, $food
-                                )
-                            );
-                            if( count($packs) >= MAX_PACK_PER_RESTAURANT ){
-                                return $packs;
-                            }
-                        }
-                    }
-                }
-            }
-        }else{
+        if(!$beveragesAvailable || !$foodsAvailable){
             return [];
         }
-        return $packs;
+
+        if( $shuffle ){
+            $this->makeRandomPacks( $elements, $limit );
+        }else{
+            $this->makePacks($elements, $limit);
+        }
+
+        return $this->packs;
     }
 
 
-    /**
-     * OKOKOKOK Im pretty sure there is a one line equivalent for this, im just making the fool proof version to focus on packs
-     * @param $restaurant
-     * @return array
-     */
-    private function getElementsByMaxBudget($restaurant, $budgetMax){
-        $menus = $restaurant['menus'];
+    private function makeRandomPacks($elements, $limit){
+
+        $complementsAvailable = isset($elements['complemento']) && count($elements['complemento'])>0;
+        $dessertsAvailable = isset($elements['postre']) && count($elements['postre'])>0;
+
+        for($i=0; $i<MAX_INTENTS_LIMIT && count($this->packs)<$limit ; $i++){
+            $combination = array(
+                getRandomElement($elements['bebida']),
+                getRandomElement($elements['comida'])
+            );
+
+            $complementSupriseFactor = rand(0,2) == 1;
+
+            if($complementsAvailable && $complementSupriseFactor){
+                $combination[] = getRandomElement($elements['complemento']);
+            }
+
+            $dessertsSupriseFactor = rand(0,2) == 1;
+
+            if($dessertsAvailable && $dessertsSupriseFactor){
+                $combination[] = getRandomElement($elements['postre']);
+            }
+
+            $this->appendPack(
+                $this->get( $combination )
+            );
+        }
+    }
+
+    private function makePacks($elements, $limit){
+
+        $complementsAvailable = isset($elements['complemento']) && count($elements['complemento'])>0;
+        $dessertsAvailable = isset($elements['postre']) && count($elements['postre'])>0;
+
+        for($i=0; $i<count($elements['bebida']) && count($this->packs)<$limit; $i++){
+            $beverage = $elements['bebida'][$i];
+            for($i=0;  $i<count($elements['comida']) && count($this->packs)<$limit; $i++){
+                $food = $elements['comida'][$i];
+                for($i=0; $complementsAvailable && $i<count($elements['complemento']) && count($this->packs)<$limit; $i++){
+                    $complement = $elements['complemento'][$i];
+                    for($i=0; $dessertsAvailable && $i<count($elements['postre']) && count($this->packs)<$limit; $i++){
+                        $dessert = $elements['postre'][$i];
+
+                        $combination = array($beverage, $food, $complement, $dessert );
+                        if( !$this->appendPack( $this->get( $combination ))){
+
+                            $combination = array($beverage, $food, $dessert );
+                            $this->appendPack($this->get($combination));
+
+                        }
+                    }
+                    $combination = array($beverage, $food, $complement );
+                    $this->appendPack($this->get($combination));
+                }
+                $combination = array($beverage, $food );
+                $this->appendPack($this->get($combination));
+            }
+        }
+    }
+
+    private function appendPack($pack){
+        if( $pack != null ){
+            $this->packs[] = $pack;
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private function get($elements){
+        $packPrice = 0;
+        $packDescription = '';
+
+        $elementsNumber = count($elements);
+        for($i = 0 ; $i < $elementsNumber ; $i++){
+            if($i != 0){
+                $packDescription .= " + ";
+            }
+            $packPrice += $elements[$i]['price'];
+            $packDescription .= $elements[$i]['type'];
+        }
+
+        if( $packPrice <= $this->maxBudget && $packPrice >= $this->minBudget ){
+            return array(
+                'price' => $packPrice,
+                'name' => 'COMBO #'. (count($this->packs) + 1),
+                'description' => $packDescription,
+                'elements' => $elements
+            );
+        }
+        return null;
+    }
+
+    private function getElementsByMaxBudget(){
         $restaurantElements = array();
-        foreach( $menus as $menu ){
-            $sections = $menu['sections'];
-            foreach($sections as $section){
-                $elements = $section['elements'];
-                foreach($elements as $element){
+        $restaurant = $this->restaurant;
+        $maxBudget = $this->maxBudget;
+        foreach($restaurant['menus'] as $menu){
+            foreach ($menu['sections'] as $section){
+                foreach ($section['elements'] as $element){
                     $type = $element['type'];
-                    if( floatval($element['price']) < $budgetMax ){
+                    if( floatval($element['price']) < $maxBudget ){
                         if( !isset($restaurantElements[$type]) ){
                             $restaurantElements[$type] = array();
                         }
@@ -198,4 +221,5 @@ class PackController extends ApiController
         }
         return $restaurantElements;
     }
+
 }

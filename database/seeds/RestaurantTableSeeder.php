@@ -40,8 +40,8 @@ class RestaurantTableSeeder extends Seeder
                         Restaurant::insert(
                             [
                                 'name' => $currentTransformed['name'],
-                                'latitude' => $latitude,
-                                'longitude' => $longitude,
+                                'latitude' => $currentTransformed['latitude'],
+                                'longitude' => $currentTransformed['longitude'],
                                 'price' => $faker->randomFloat(2, 100, 1000),
                                 'direction' => $currentTransformed['address'],
                                 'type' => $currentTransformed['type'],

@@ -63,3 +63,8 @@ function getConstraints($lat, $lng, $distance = 1000, $earthRadius = 6371)
             'min_lng' => $constraints['west']['lng'],
             'max_lng' => $constraints['east']['lng']);
 }
+
+function getRandomElement($collection){
+    $randomIndex = mt_rand(0, count($collection) - 1);
+    return $collection[$randomIndex];
+}

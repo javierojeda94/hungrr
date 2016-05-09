@@ -33,8 +33,11 @@ class SectionTableSeeder extends Seeder
                 SECTION_NAME_BEBIDAS
             ];
             for($i = 0; $i < SECTIONS_PER_MENU; $i++){
-
-                $sectionName = $faker->randomElement( $availableSections );
+                if($i == 0){
+                    $sectionName = SECTION_NAME_BEBIDAS;
+                }else{
+                    $sectionName = $faker->randomElement( $availableSections );   
+                }
                 $availableSections = array_diff($availableSections, array($sectionName));
                 
                 Section::insert( [
