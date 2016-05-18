@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Restaurant;
 use App\Phone;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Redirect;
+use Session;
 use Illuminate\Support\Facades\Auth;
 use Storage;
 use Illuminate\Support\Facades\Input;
@@ -22,8 +25,13 @@ class RestaurantsWebController extends ApiController
 
     public function index(){
         //TODO: Only return users restaurants
-        $restaurants = Restaurant::all();
+        $restaurants = Auth::user()->restaurants;
+        if($restaurants == null){
+            $restaurants = [];
+        }
+
         return view('restaurants.index',compact('restaurants'));
+
     }
 
      /**
@@ -42,26 +50,28 @@ class RestaurantsWebController extends ApiController
      *
      * @return Response
      */
-    public function store(Request $request){
+    public function store(){
         $restaurant = new Restaurant;
-        $restaurant->name = $request->name;
-        $restaurant->latitude = $request->latitude;
-        $restaurant->longitude = $request->longitude;
-        $restaurant->direction = $request->direction;
-        $restaurant->type = $request->type;
+        $restaurant->name = Input::get('name');
+        $restaurant->direction = Input::get('direction');
+        $restaurant->type = Input::get('type');
         $restaurant->save();
+
         $phone = new Phone;
         $phone->restaurant_id = $restaurant->id;
-        $phone->phone = $request->phone;
-        $phone->description = $request->phone_description;
-        if ($request->hasFile('image')) {
+        $phone->phone = Input::get('phone');
+        $phone->save();
+        if (Input::file('image')->isValid()) {
             Storage::put(
-                '/images/p_img_' . $restaurant->id . '.png', file_get_contents($request->file('image')->getRealPath())
+                '/images/p_img_' . $restaurant->id . '.png', file_get_contents(Input::file('image')->getRealPath())
             );
             $restaurant->image = url('/images/restaurant_img_'. $restaurant->id . '.png');
         }
         $restaurant->save();
-        dd($restaurant);
+
+        Auth::user()->restaurants()->save($restaurant);
+        Auth::user()->save();
+        return redirect('restaurants');
     }
 
     /**
@@ -105,14 +115,17 @@ class RestaurantsWebController extends ApiController
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id){
-        //
-    }
-  
+    public function destroy($id)
+    {
+        // delete
+        $restaurant = Restaurant::find($id);
+        $restaurant->delete();
 
-    public function addRestaurant(){
-        return view('add_restaurant');
-    }       
+        // redirect
+        Session::flash('message', 'Successfully deleted the restaurant!');
+        return redirect('restaurants');
+    }
+
 
 
 }

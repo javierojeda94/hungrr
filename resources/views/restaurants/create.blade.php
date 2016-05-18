@@ -35,7 +35,7 @@
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->id }} <span class="caret"></span>
+                                {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
@@ -48,17 +48,16 @@
         </div>
     </nav>
     <div class="container">
-        <h1>Restaurante</h1>
         <nav class="navbar navbar-inverse">
             <ul class="nav navbar-nav">
                 <li><a href="{{ URL::to('restaurants') }}">Ver Todos Restaurantes</a></li>
-                <li><a href="{{ URL::to('restaurants/create') }}">Crear un Restaurant</a>
+                <li><a href="{{ URL::to('restaurants/create') }}" style="color:white;">Crear un Restaurant</a>
             </ul>
         </nav>
         <!-- if there are creation errors, they will show here -->
         {{ HTML::ul($errors->all()) }}
 
-        {{ Form::open(array('url' => 'restaurants')) }}
+        {{ Form::open(array('url' => 'restaurants', 'files' => true)) }}
 
             <div class="panel-body">                 
                 <div class="col-md-12 general">
@@ -67,28 +66,23 @@
                     <div class="row">
                         <div class="col-md-8">
                             <span class="col-md-12">
-                                {{ Form::text('name', Input::old('name'), array('required','class' => 'form-control', 'placeholder'=>'Nombre del restaurante')) }}
+                                {{ Form::text('name', Input::old('name'), array('required','class' => 'form-control', 'placeholder'=>'Nombre del restaurante', 'style'=>'margin-bottom: 10px;')) }}
                             </span>
                             <span class="col-md-12">
-                                {{ Form::text('name', Input::old('name'), array('required','class' => 'form-control', 'placeholder'=>'Nombre del restaurante')) }}
-                                <label><i class="fa fa-map-signs" aria-hidden="true"></i></label>
-                                <input type="text" name="address" placeholder="Dirección" style="width:80%">
+                                {{ Form::text('direction', Input::old('direction'), array('required','class' => 'form-control', 'placeholder'=>'Dirección', 'style'=>'margin-bottom: 10px;')) }}
                             </span>
                             <span class="col-md-12">
-                                <label><i class="fa fa-phone" aria-hidden="true"></i></label>
-                                <input type="tel" name="phone" placeholder="Teléfono" style="width:80%">
+                                {{ Form::text('phone', Input::old('phone'), array('required','class' => 'form-control', 'placeholder'=>'Teléfono', 'style'=>'margin-bottom: 10px;')) }}
                             </span>
                             <span class="col-md-12">
-                                <label><i class="fa fa-phone" aria-hidden="true"></i></label>
-                                <input type="text" name="type" placeholder="Tipo de restaurante Ej. Comida rápida, Pizzería, etc." style="width:80%">
+                                {{ Form::text('type', Input::old('type'), array('required','class' => 'form-control', 'placeholder'=>'Tipo de restaurante Ej. Comida rápida, Pizzería, etc.', 'style'=>'margin-bottom: 10px;')) }}
                             </span>
                             <span class="col-md-12">
-                                <label><i class="fa fa-image" aria-hidden="true"></i></label>
-                                <input type='file' id="imgInp" style="display: inline-block;" />
+                                {!! Form::file('image', array('required','id'=>'imgInp')) !!}
                             </span>
                         </div>
                         <div class="col-md-4">
-                            <img id="img_preview" src="#" alt="Preview" style="width:250px;"/>
+                            <img id="img_preview" src="../images/placeholder3.png" alt="Preview" style="max-width:250px;max-height: 250px;"/>
                         </div>
                     </div>
                     
@@ -98,11 +92,11 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-2">
-                        <span>Lunes</span><br>
-                        <input type="hidden" name="day" value="monday">
-                        <input id='monday_oh' type='text' name='monday_oh'/>
-                        <br>a <br>
-                        <input id='monday_ch' type='text' name='monday_ch'/>
+                            <span>Lunes</span><br>
+                            <input type="hidden" name="day" value="monday">
+                            <input id='monday_oh' type='text' name='monday_oh'/>
+                            <br>a <br>
+                            <input id='monday_ch' type='text' name='monday_ch'/>
                         </div>
                         <div class="col-md-2">
                             <span>Martes</span><br>
@@ -149,87 +143,22 @@
                             <input id='sunday_ch' type='text'name='sunday_ch'/>
                         </div>
                     </div>
-                    
+
                 </div>
-                <div class="col-md-12 menu">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <h2>Menú</h2>
-                        </div>
-                        <div class="col-md-2 pull-right">
-                            <button name="newSection" type="button" class="btn btn-info" data-toggle="modal" data-target="#newSection" style="margin-bottom:-50px;">
-                                Añadir una sección</button>
-                        </div>
-                    </div>
-                    <hr style="margin-top:0;">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="menu-section col-md-12">
-                                <div class="row" style="border-bottom:solid 1px #eee;">
-                                    <div class="col-md-10">
-                                        <h4>Nombre de la sección</h4>
-                                    </div>
-                                    <div class="col-md-2  pull-right">
-                                        <button name="newElement" type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#newElement" style="margin-bottom:-50px;">
-                                + elemento</button>
-                                    </div> 
-                                </div>
-                                <div class="menu-element row">
-                                    <div class="col-md-10">
-                                        <h5>Nombre del elemento</h5>
-                                    </div>
-                                    <div class="col-md-2  pull-right">
-                                        $100
-                                    </div>
-                                </div>
-                                <div class="menu-element row">
-                                    <div class="col-md-10">
-                                        <h5>Nombre del elemento</h5>
-                                    </div>
-                                    <div class="col-md-2  pull-right">
-                                        $100
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="menu-section col-md-12">
-                                <div class="row" style="border-bottom:solid 1px #eee;">
-                                    <div class="col-md-10">
-                                        <h4>Nombre de la sección</h4>
-                                    </div>
-                                    <div class="col-md-2  pull-right">
-                                        <button name="newElement" type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#newElement" style="margin-bottom:-50px;">
-                                            + elemento</button>
-                                    </div> 
-                                </div>
-                                <div class="menu-element row">
-                                    <div class="col-md-10">
-                                        <h5>Nombre del elemento</h5>
-                                    </div>
-                                    <div class="col-md-2  pull-right">
-                                        $100
-                                    </div>
-                                </div>
-                                <div class="menu-element row">
-                                    <div class="col-md-10">
-                                        <h5>Nombre del elemento</h5>
-                                    </div>
-                                    <div class="col-md-2  pull-right">
-                                        $100
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
 
             
             
 
         </div>
+            <div class="panel-footer row">
+                <div class="pull-right">
+                    {{ Form::submit('Guardar', array('class' => 'btn btn-lg btn-primary')) }}
+                    <a href="{{ URL::to('restaurants') }}" class="btn btn-lg btn-danger">Cancelar</a>
+                </div>
 
-            {{ Form::submit('Create the Restaurant!', array('class' => 'btn btn-primary')) }}
+            </div>
+
 
         {{ Form::close() }}
 

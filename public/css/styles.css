@@ -108,3 +108,18 @@
 	margin-top:-15px;
 	color:lightblue;
 }
+
+
+.navbar-default {
+	background-color: #009688;
+	border-color: #009688;
+	border-radius: 0;
+}
+
+.navbar-default .navbar-brand {
+	color: white;
+}
+
+.navbar-default .navbar-nav>li>a {
+	color: white;
+}
