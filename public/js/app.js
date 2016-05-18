@@ -54,4 +54,24 @@ $(function() {
     $("#imgInp_menu").change(function(){
         readURL_menu(this);
     });
+
+    //Location for creating a restaurant
+    if($('#us2').length > 0){
+        $('#us2').locationpicker({
+            location: {
+                latitude: 46.15242437752303,
+                longitude: 2.7470703125
+            },
+            radius: 0,
+            inputBinding: {
+                latitudeInput: $('#us2-lat'),
+                longitudeInput: $('#us2-lon'),
+                radiusInput: $('#us2-radius'),
+                locationNameInput: $('#us2-address')
+            },
+            enableAutocomplete: true
+        });
+    }
+
+
 });

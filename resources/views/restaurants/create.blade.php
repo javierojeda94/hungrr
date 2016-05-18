@@ -91,79 +91,91 @@
                     <h2>Horario</h2>
                     <hr>
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="day text-center">
                             <span>Lunes</span><br>
-                            <input type="hidden" name="day" value="monday">
-                            <input id='monday_oh' type='text' name='monday_oh'/>
-                            <br>a <br>
-                            <input id='monday_ch' type='text' name='monday_ch'/>
+                            {{ Form::text('monday_oh', Input::old('monday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'monday_oh')) }}
+                            {{ Form::text('monday_ch', Input::old('monday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'monday_ch')) }}
                         </div>
-                        <div class="col-md-2">
+                        <div class="day text-center">
                             <span>Martes</span><br>
-                            <input type="hidden" name="day" value="tuesday">
-                            <input id='tuesday_oh' type='text'name='tuesday_oh'/>
-                            <br>a <br>
-                            <input id='tuesday_ch' type='text'name='tuesday_ch'/>
+                            {{ Form::text('tuesday_oh', Input::old('tuesday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'tuesday_oh')) }}
+                            {{ Form::text('tuesday_ch', Input::old('tuesday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'tuesday_ch')) }}
                         </div>
-                        <div class="col-md-2">
+                        <div class="day text-center">
                             <span>Miércoles</span><br>
-                            <input type="hidden" name="day" value="wednesday">
-                            <input id='wednesday_oh' type='text'name='wednesday_oh'/>
-                            <br>a <br>
-                            <input id='wednesday_ch' type='text'name='wednesday_ch'/>
+                            {{ Form::text('wednesday_oh', Input::old('wednesday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'wednesday_oh')) }}
+                            {{ Form::text('wednesday_ch', Input::old('wednesday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'wednesday_ch')) }}
                         </div>
-                        <div class="col-md-2">
+                        <div class="day text-center">
                             <span>Jueves</span><br>
-                            <input type="hidden" name="day" value="thursday">
-                            <input id='thursday_oh' type='text'name='thursday_oh'/>
-                            <br>a <br>
-                            <input id='thursday_ch' type='text'name='thursday_ch'/>
+                            {{ Form::text('thursday_oh', Input::old('thursday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'thursday_oh')) }}
+                            {{ Form::text('thursday_ch', Input::old('thursday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'thursday_ch')) }}
                         </div>
-                        <div class="col-md-2">
+                        <div class="day text-center">
                             <span>Viernes</span><br>
-                            <input type="hidden" name="day" value="friday">
-                            <input id='friday_oh' type='text'name='friday_oh'/>
-                            <br>a <br>
-                            <input id='friday_ch' type='text'name='friday_ch'/>
+                            {{ Form::text('friday_oh', Input::old('friday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'friday_oh')) }}
+                            {{ Form::text('friday_ch', Input::old('friday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'friday_ch')) }}
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
+
+                        <div class="day text-center">
                             <span>Sábado</span><br>
-                            <input type="hidden" name="day" value="saturday">
-                            <input id='saturday_oh' type='text'name='saturday_oh'/>
-                            <br>a <br>
-                            <input id='saturday_ch' type='text'name='saturday_ch'/>
+                            {{ Form::text('saturday_oh', Input::old('saturday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'saturday_oh')) }}
+                            {{ Form::text('saturday_ch', Input::old('saturday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'saturday_ch')) }}
                         </div>
-                        <div class="col-md-2">
+                        <div class="day text-center">
                             <span>Domingo</span><br>
-                            <input type="hidden" name="day" value="sunday">
-                            <input id='sunday_oh' type='text'name='sunday_oh'/>
-                            <br>a <br>
-                            <input id='sunday_ch' type='text'name='sunday_ch'/>
+                            {{ Form::text('sunday_oh', Input::old('sunday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'sunday_oh')) }}
+                            {{ Form::text('sunday_ch', Input::old('sunday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'sunday_ch')) }}
                         </div>
                     </div>
 
                 </div>
-
-
-            
-            
-
-        </div>
+                <div class="col-md-12 location">
+                    <h2>Ubicación</h2>
+                    <hr>
+                    <div class="form-horizontal row col-md-12">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="us2-address" width="100%" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                {{ Form::hidden('us2-radius', Input::old('us2-radius'), array('required','class' => 'form-control', 'placeholder'=>'Radius', 'id'=>'us2-radius')) }}
+                            </div>
+                        </div>
+                        <div id="us2" style="width: 100%; height: 400px;"></div>
+                        <div class="clearfix">&nbsp;</div>
+                        <div class="m-t-small">
+                            <div class="col-sm-1">
+                                {{ Form::hidden('us2-lat', Input::old('us2-lat'), array('required','class' => 'form-control', 'placeholder'=>'Latitud', 'id'=>'us2-lat')) }}
+                            </div>
+                            <div class="col-sm-1">
+                                {{ Form::hidden('us2-lon', Input::old('us2-lon'), array('required','class' => 'form-control', 'placeholder'=>'Longitud', 'id'=>'us2-lon')) }}
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
             <div class="panel-footer row">
                 <div class="pull-right">
                     {{ Form::submit('Guardar', array('class' => 'btn btn-lg btn-primary')) }}
                     <a href="{{ URL::to('restaurants') }}" class="btn btn-lg btn-danger">Cancelar</a>
                 </div>
-
             </div>
 
 
-        {{ Form::close() }}
+                {{ Form::close() }}
 
-        
+
+            </div>
     </div>
+
+    @endsection
+
+
 </div>
 
-@endsection
+
+            

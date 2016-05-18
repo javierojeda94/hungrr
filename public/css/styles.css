@@ -123,3 +123,12 @@
 .navbar-default .navbar-nav>li>a {
 	color: white;
 }
+
+.day{
+	width: 14.2857%;
+	float: left;
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
