@@ -10,31 +10,6 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('/images/restaurants/{filename}', function ($filename) {
-    $path = storage_path() . '/app/images/restaurants/' . $filename;
-
-    $file = File::get($path);
-    /* fix used while we enable finfo_file php function in cpanel */
-    $type = 'image/png'; //File::mimeType($path);
-
-    $response = Response::make($file, 200);
-    $response->header("Content-Type", $type);
-
-    return $response;
-});
-
-Route::get('/images/elements/{filename}', function ($filename) {
-    $path = storage_path() . '/app/images/elements/' . $filename;
-
-    $file = File::get($path);
-    /* fix used while we enable finfo_file php function in cpanel */
-    $type = 'image/png'; //File::mimeType($path);
-
-    $response = Response::make($file, 200);
-    $response->header("Content-Type", $type);
-
-    return $response;
-});
 
 Route::get('/images/{filename}', function ($filename) {
     $path = storage_path() . '/app/images/' . $filename;

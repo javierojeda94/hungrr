@@ -92,38 +92,38 @@
                     <hr>
                     <div class="row">
                         <div class="day text-center">
-                            <span>Lunes</span><br>
+                            <p>Lunes</p>
                             {{ Form::text('monday_oh', Input::old('monday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'monday_oh')) }}
                             {{ Form::text('monday_ch', Input::old('monday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'monday_ch')) }}
                         </div>
                         <div class="day text-center">
-                            <span>Martes</span><br>
+                            <p>Martes</p>
                             {{ Form::text('tuesday_oh', Input::old('tuesday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'tuesday_oh')) }}
                             {{ Form::text('tuesday_ch', Input::old('tuesday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'tuesday_ch')) }}
                         </div>
                         <div class="day text-center">
-                            <span>Miércoles</span><br>
+                            <p>Miércoles</p>
                             {{ Form::text('wednesday_oh', Input::old('wednesday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'wednesday_oh')) }}
                             {{ Form::text('wednesday_ch', Input::old('wednesday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'wednesday_ch')) }}
                         </div>
                         <div class="day text-center">
-                            <span>Jueves</span><br>
+                            <p>Jueves</p>
                             {{ Form::text('thursday_oh', Input::old('thursday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'thursday_oh')) }}
                             {{ Form::text('thursday_ch', Input::old('thursday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'thursday_ch')) }}
                         </div>
                         <div class="day text-center">
-                            <span>Viernes</span><br>
+                            <p>Viernes</p>
                             {{ Form::text('friday_oh', Input::old('friday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'friday_oh')) }}
                             {{ Form::text('friday_ch', Input::old('friday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'friday_ch')) }}
                         </div>
 
                         <div class="day text-center">
-                            <span>Sábado</span><br>
+                            <p>Sábado</p>
                             {{ Form::text('saturday_oh', Input::old('saturday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'saturday_oh')) }}
                             {{ Form::text('saturday_ch', Input::old('saturday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'saturday_ch')) }}
                         </div>
                         <div class="day text-center">
-                            <span>Domingo</span><br>
+                            <p>Domingo</p>
                             {{ Form::text('sunday_oh', Input::old('sunday_oh'), array('required','class' => 'form-control', 'placeholder'=>'Inicio', 'style'=>'margin-bottom: 10px;', 'id'=>'sunday_oh')) }}
                             {{ Form::text('sunday_ch', Input::old('sunday_ch'), array('required','class' => 'form-control', 'placeholder'=>'Final', 'style'=>'margin-bottom: 10px;', 'id'=>'sunday_ch')) }}
                         </div>

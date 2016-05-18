@@ -73,5 +73,16 @@ $(function() {
         });
     }
 
+    //Location for showing a restaurant
+    if($('#us3').length > 0){
+        $('#us3').locationpicker({
+            location: {
+                latitude: $('#us3-lat')[0].value,
+                longitude: $('#us3-lon')[0].value
+            },
+            radius: 0
+        });
+    }
+
 
 });

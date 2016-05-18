@@ -86,7 +86,7 @@ class RestaurantsWebController extends ApiController
             $phone->save();
             if (Input::file('image')->isValid()) {
                 Storage::put(
-                    '/images/p_img_' . $restaurant->id . '.png', file_get_contents(Input::file('image')->getRealPath())
+                    '/images/restaurant_img_' . $restaurant->id . '.png', file_get_contents(Input::file('image')->getRealPath())
                 );
                 $restaurant->image = url('/images/restaurant_img_'. $restaurant->id . '.png');
             }
@@ -115,13 +115,15 @@ class RestaurantsWebController extends ApiController
      * @param  int  $id
      * @return Response
      */
-    public function show($restaurantID){
-        $restaurant = Restaurant::with('menus.sections.elements')->where('id','=', $restaurantID)->get()->first();
-        if( $restaurant ) {
-            return $this->respondFound(['data' => $this->detailedRestaurantTransformer->transform($restaurant)]);
-        }else{
-            return $this->respondNotFound('Restaurant not found');
-        }
+    public function show($id)
+    {
+        // get the nerd
+        $restaurant = Restaurant::find($id);
+        $phones = $restaurant->phones()->where('restaurant_id', $restaurant->id)->first();
+        $schedules = $restaurant->schedules;
+
+        // show the view and pass the restaurant to it
+        return view('restaurants.show',compact('restaurant','phones','schedules'));
     }
 
     /**

@@ -132,3 +132,9 @@
 	padding-right: 15px;
 	padding-left: 15px;
 }
+
+.day p{
+	font-weight: bold;
+	border-bottom: solid 2px #b6b6b6;
+	width:100%;
+}
