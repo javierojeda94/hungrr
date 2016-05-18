@@ -84,5 +84,22 @@ $(function() {
         });
     }
 
+    //Location for editing a restaurant
+    if($('#us4').length > 0){
+        $('#us4').locationpicker({
+            location: {
+                latitude: $('#us4-lat')[0].value,
+                longitude: $('#us4-lon')[0].value
+            },
+            radius: 0,
+            inputBinding: {
+                latitudeInput: $('#us4-lat'),
+                longitudeInput: $('#us4-lon'),
+                locationNameInput: $('#us4-address')
+            },
+            enableAutocomplete: true
+        });
+    }
+
 
 });

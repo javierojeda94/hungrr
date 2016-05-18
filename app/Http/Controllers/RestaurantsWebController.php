@@ -59,6 +59,7 @@ class RestaurantsWebController extends ApiController
             'type'      => 'required',
             'phone'      => 'required',
             'direction' => 'required',
+            'image' => 'required',
         );
         $days = array(
             'monday', 'tuesday','wednesday','thursday','friday','saturday','sunday'
@@ -132,8 +133,15 @@ class RestaurantsWebController extends ApiController
      * @param  int  $id
      * @return Response
      */
-    public function edit($id){
-        //
+    public function edit($id)
+    {
+        // get the restaurant
+        $restaurant = Restaurant::find($id);
+        $phones = $restaurant->phones()->where('restaurant_id', $restaurant->id)->first();
+        $schedules = $restaurant->schedules;
+
+        // show the edit form and pass the nerd
+        return view('restaurants.edit',compact('restaurant','phones','schedules'));
     }
 
     /**
@@ -143,8 +151,60 @@ class RestaurantsWebController extends ApiController
      * @return Response
      */
     public function update($id){
-        //
+        // validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'name'       => 'required',
+            'type'      => 'required',
+            'phone'      => 'required',
+            'direction' => 'required'
+        );
+        $days = array(
+            'monday', 'tuesday','wednesday','thursday','friday','saturday','sunday'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return redirect('restaurants/edit')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            $restaurant = Restaurant::find($id);
+            $restaurant->name = Input::get('name');
+            $restaurant->direction = Input::get('direction');
+            $restaurant->type = Input::get('type');
+            $restaurant->latitude = Input::get('us4-lat');
+            $restaurant->longitude = Input::get('us4-lon');
+            $restaurant->save();
+
+            //Saving phone
+            $phones = $restaurant->phones()->where('restaurant_id', $restaurant->id)->first();
+            $phones->phone = Input::get('phone');
+            $phones->save();
+
+            if(Input::file('image')!= null){
+                if (Input::file('image')->isValid()) {
+                    Storage::put(
+                        '/images/restaurant_img_' . $restaurant->id . '.png', file_get_contents(Input::file('image')->getRealPath())
+                    );
+                    $restaurant->image = url('/images/restaurant_img_'. $restaurant->id . '.png');
+                }
+                $restaurant->save();
+            }
+
+            //Saving schedule
+            $schedules = $restaurant->schedules;
+            foreach ($schedules as $schedule) {
+                $schedule->hour_init = Input::get($schedule->day.'_oh');
+                $schedule->hour_finish = Input::get($schedule->day.'_ch');
+                $schedule->save();
+            }
+        }
+
+        return redirect('restaurants');
     }
+
 
     /**
      * Remove the specified resource from storage.
