@@ -15,16 +15,13 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="#">
                     Hungrr
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Mi Inicio</a></li>
-                </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
@@ -33,6 +30,9 @@
                         <li><a href="{{ url('/login') }}">Inicia Sesi&oacute;n</a></li>
                         <li><a href="{{ url('/register') }}">Regístrate</a></li>
                     @else
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{ url('/home') }}">Mi Inicio</a></li>
+                        </ul>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
