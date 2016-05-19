@@ -73,7 +73,10 @@ class ElementController extends ApiController
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
             'name'       => 'required',
+            'price'       => 'required',
+            'description' => 'required',
         );
+
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
@@ -83,12 +86,26 @@ class ElementController extends ApiController
                 ->withInput(Input::except('password'));
         } else {
             // store
-            $section = Section::find(Input::get('id'));
-            $section->name = Input::get('name');
-            $section->save();
+            $element = Element::find(Input::get('id'));
+            $element->name = Input::get('name');
+            $element->price = Input::get('price');
+            $element->currency = 'MXN';
+            $element->description = Input::get('description');
+            $element->save();
+
+            if(Input::file('image')!= null){
+                if (Input::file('image')->isValid()) {
+                    Storage::put(
+                        '/images/element_img_' . $element->id . '.png', file_get_contents(Input::file('image')->getRealPath())
+                    );
+                    $element->image = url('/images/element_img_' . $element->id . '.png');
+                }
+            }
+
+            $element->save();
 
             // redirect
-            Session::flash('message', 'Se creó el menú exitosamente ');
+            Session::flash('message', 'Se creó ' . $element->name . ' exitosamente');
             return redirect()->back();
         }
     }

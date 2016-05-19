@@ -150,4 +150,22 @@ $(function() {
         modal.find('.modal-body input.section-id').val(section_id);
     });
 
+    $('#updateElement').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var element_id = button.data('elementid'); // Extract info from data-* attributes
+        var name = button.data('name');
+        var price = button.data('price');
+        var description = button.data('description');
+        var img = button.data('img');
+
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this);
+        modal.find('.modal-body input#element-id').val(element_id);
+        modal.find('.modal-body input#element-name').val(name);
+        modal.find('.modal-body input#element-price').val(price);
+        modal.find('.modal-body textarea#element-description').val(description);
+        modal.find('.modal-body img#img_preview_menu').attr('src', img);
+    });
+
 });

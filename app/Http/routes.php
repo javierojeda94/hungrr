@@ -77,6 +77,10 @@ Route::group(['middleware' => 'web'], function () {
         [ 'as' => 'element.store',
             'uses' => 'ElementController@store'
         ]);
+    Route::post('/element/update',
+        [ 'as' => 'element.update',
+            'uses' => 'ElementController@update'
+        ]);
 
 
 

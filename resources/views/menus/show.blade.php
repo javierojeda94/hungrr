@@ -104,12 +104,17 @@
                                             <h5>${{$value_element->price}}</h5>
                                         </div>
                                         <div class="col-md-4" style="    margin-top: 5px;margin-bottom: 5px;">
-                                            <a class="btn btn-link btn-small" href="#" data-toggle="modal" data-target="#updateSection" data-sectionid="{{$value->id}}" data-name="{{$value->name}}">
+                                            <button class="btn btn-link btn-small" href="#" data-toggle="modal" data-target="#updateSection" data-sectionid="{{$value->id}}" data-name="{{$value->name}}">
                                                 <i class="fa fa-eye fa-lg" aria-hidden="true" style="color: #8bc34a;"></i>
-                                            </a>
-                                            <a class="btn btn-link btn-small" href="#" data-toggle="modal" data-target="#updateSection" data-sectionid="{{$value->id}}" data-name="{{$value->name}}">
+                                            </button>
+                                            <button class="btn btn-link btn-small" href="#" data-toggle="modal" data-target="#updateElement"
+                                                    data-elementid="{{$value_element->id}}"
+                                                    data-name="{{$value_element->name}}"
+                                                    data-price="{{$value_element->price}}"
+                                                    data-description="{{$value_element->description}}"
+                                                    data-img="{{$value_element->image}}">
                                                 <i class="fa fa-pencil fa-lg" aria-hidden="true" style="color:#5bc0de;"></i>
-                                            </a>
+                                            </button>
                                             {{ Form::open(array('url' => 'elements/' . $value_element->id, 'class' => 'pull-right')) }}
                                                 {{ Form::hidden('_method', 'DELETE') }}
                                                 {{ Form::button('<i class="fa fa-trash fa-lg" aria-hidden="true"></i>', array('type' => 'submit','class' => 'btn btn-link btn-small', 'style'=>'color:#f0ad4e')) }}
@@ -142,3 +147,4 @@
 @include('modals/edit_section_modal')
 <!-- Element Modal -->
 @include('modals/add_element_modal')
+@include('modals/edit_element_modal')
