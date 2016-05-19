@@ -64,11 +64,41 @@
                     <h2>{{ $menu->name }}</h2>
                 </div>
                 <div class="col-md-2 pull-right">
-                    <button name="newSection" type="button" class="btn btn-success" data-toggle="modal" data-target="#newSection" style="margin-bottom:-50px;">
-                        Añadir una sección</button>
+                    <button name="newSection" type="button" class="btn btn-success" data-toggle="modal" data-target="#newSection" data-menuid="{{$menu->id}}" style="margin-bottom:-50px;    bottom: 0;
+    position: absolute;">
+                        Añadir una sección
+                    </button>
                 </div>
             </div>
             <hr style="border-top: 3px solid #212121; margin-top: 5px;">
+            <div class="row">
+                @foreach($sections as $key => $value)
+                    <div class="col-md-6">
+                        <div class="menu-section col-md-12">
+                            <div class="row" style="border-bottom:solid 1px #eee;">
+                                <div class="col-md-8">
+                                    <h4>{{$value->name}}</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <button name="newElement" type="button" class="btn btn-info add-element" data-toggle="modal" data-target="#newElement">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                        <i class="fa fa-cutlery" aria-hidden="true"></i>
+                                    </button>
+                                    <a class="btn btn-small btn-info" href="#" data-toggle="modal" data-target="#updateSection" data-sectionid="{{$value->id}}" data-name="{{$value->name}}">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </a>
+                                    {{ Form::open(array('url' => 'sections/' . $value->id, 'class' => 'pull-right')) }}
+                                        {{ Form::hidden('_method', 'DELETE') }}
+                                        {{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', array('type' => 'submit','class' => 'btn btn-warning')) }}
+                                    {{ Form::close() }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                @endforeach
+            </div>
 
         </div>
 
@@ -80,3 +110,6 @@
 @endsection
 
         <!-- Menu Modal -->
+@include('modals/add_section_modal')
+@include('modals/edit_section_modal')
+

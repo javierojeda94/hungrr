@@ -121,5 +121,25 @@ $(function() {
         modal.find('.modal-body input.name').val(name);
     });
 
+    $('#newSection').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var menu_id = button.data('menuid') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-body input.menu-id').val(menu_id);
+    });
+    $('#updateSection').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var section_id = button.data('sectionid') // Extract info from data-* attributes
+        var name = button.data('name')
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-body input.section-id').val(section_id);
+        modal.find('.modal-body input.name').val(name);
+
+    });
+
 
 });

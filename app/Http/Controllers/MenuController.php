@@ -109,9 +109,13 @@ class MenuController extends ApiController
     {
         // get the nerd
         $menu = Menu::find($id);
+        $sections = $menu->sections;
+        if($sections == null){
+            $sections = [];
+        }
 
         // show the view and pass the restaurant to it
-        return view('menus.show',compact('menu'));
+        return view('menus.show',compact('menu','sections'));
     }
 
 

@@ -8,7 +8,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Añadir sección</h4>
       </div>
-      {!! Form::open(['route' => 'sections.store','class' => 'form']) !!}
+      {!! Form::open(['route' => 'section.store','class' => 'form']) !!}
       <div class="modal-body">
         {!! Form::hidden('id', '', ['id' => 'menu-id','class' => 'menu-id']) !!}
         {!! Form::text('name', '', ['id' => 'name','class' => 'form-control',  'placeholder'=>'p.e: Desayunos, Bebidas, etc.', 'style'=>'width:100%;']) !!}

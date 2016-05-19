@@ -138,3 +138,14 @@
 	border-bottom: solid 2px #b6b6b6;
 	width:100%;
 }
+
+.add-element{
+	padding: 3px 12px;
+	background-color: #ff5252;
+	border-color: #ff5252;
+}
+.add-element:hover{
+	background-color: #cc0000;
+	border-color: #cc0000;
+
+}

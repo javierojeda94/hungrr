@@ -60,6 +60,16 @@ Route::group(['middleware' => 'web'], function () {
             'uses' => 'MenuController@update'
         ]);
 
+    //Sections
+    Route::resource('sections', 'SectionController');
+    Route::post('/section/store',
+        [ 'as' => 'section.store',
+            'uses' => 'SectionController@store'
+        ]);
+    Route::post('/section/update',
+        [ 'as' => 'section.update',
+            'uses' => 'SectionController@update'
+        ]);
 
 
 
