@@ -47,6 +47,17 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/home', 'RestaurantsWebController@index');
     Route::resource('restaurants', 'RestaurantsWebController');
 
+    //Menus
+    Route::get('/menus/{restaurantId}', 'MenuController@index');
+    Route::resource('menus', 'MenuController');
+    Route::post('/menus/store',
+        [ 'as' => 'menus.store',
+            'uses' => 'MenuController@store'
+        ]);
+
+
+
+
 });
 
 // , 'middleware' => 'api'

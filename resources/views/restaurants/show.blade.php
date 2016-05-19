@@ -51,7 +51,7 @@
             <nav class="navbar navbar-inverse">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ URL::to('restaurants') }}">Ver Todos Restaurantes</a></li>
-                    <li><a href="{{ URL::to('restaurants/create') }}">Crear un Restaurant</a>
+                    <li><a href="{{ url('menus/'.$restaurant->id) }}">Ver menús</a></li>
                 </ul>
             </nav>
             <div class="panel-body">
