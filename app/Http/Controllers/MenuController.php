@@ -44,12 +44,6 @@ class MenuController extends ApiController
         );
         $validator = Validator::make(Input::all(), $rules);
 
-        $restaurant = Restaurant::find(Input::get('id'));
-        $menus = $restaurant->menus;
-        if($menus == null){
-            $menus = [];
-        }
-
         // process the login
         if ($validator->fails()) {
             return redirect()->back()
@@ -67,6 +61,33 @@ class MenuController extends ApiController
             return redirect()->back();
         }
     }
+
+    public function update()
+    {
+        // validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'name'       => 'required',
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $menu = Menu::find(Input::get('id'));
+            $menu->name = Input::get('name');
+            $menu->save();
+
+            // redirect
+            Session::flash('message', 'Se creó el menú exitosamente ');
+            return redirect()->back();
+        }
+    }
+
 
     public function destroy($id)
     {

@@ -74,21 +74,16 @@
 
                     <!-- we will also add show, edit, and delete buttons -->
                     <td>
-                        <!-- delete the restaurant (uses the destroy method DESTROY /restaurants/{id} -->
-                        <!-- we will add this later since its a little more complicated than the other two buttons -->
                         {{ Form::open(array('url' => 'menus/' . $value->id, 'class' => 'pull-right')) }}
                             {{ Form::hidden('_method', 'DELETE') }}
                             {{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', array('type' => 'submit','class' => 'btn btn-warning')) }}
                         {{ Form::close() }}
 
-                        <!-- show the restaurant (uses the show method found at GET /restaurants/{id} -->
                         <a class="btn btn-small btn-success" href="{{ URL::to('menus/' . $value->id) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
-                        <!-- edit this restaurant (uses the edit method found at GET /restaurants/{id}/edit -->
-                        <a class="btn btn-small btn-info" href="{{ URL::to('menus/' . $value->id . '/edit') }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-
-
-
+                        <a class="btn btn-small btn-info" href="#" data-toggle="modal" data-target="#updateMenu" data-menuid="{{$value->id}}" data-name="{{$value->name}}">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
                     </td>
                 </tr>
             @endforeach
@@ -102,3 +97,4 @@
 
 <!-- Menu Modal -->
 @include('modals/add_menu_modal')
+@include('modals/edit_menu_modal')

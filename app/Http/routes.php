@@ -54,6 +54,10 @@ Route::group(['middleware' => 'web'], function () {
         [ 'as' => 'menus.store',
             'uses' => 'MenuController@store'
         ]);
+    Route::post('/menus/update',
+        [ 'as' => 'menus.update',
+            'uses' => 'MenuController@update'
+        ]);
 
 
 
