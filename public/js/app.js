@@ -168,4 +168,20 @@ $(function() {
         modal.find('.modal-body img#img_preview_menu').attr('src', img);
     });
 
+    $('#showElement').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var name = button.data('name');
+        var price = button.data('price');
+        var description = button.data('description');
+        var img = button.data('img');
+
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this);
+        modal.find('.modal-header #element-title').text(name);
+        modal.find('.modal-body #element-price').text('$' + price);
+        modal.find('.modal-body #element-description').text(description);
+        modal.find('.modal-body img#img_preview_menu').attr('src', img);
+    });
+
 });

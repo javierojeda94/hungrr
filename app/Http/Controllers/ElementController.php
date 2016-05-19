@@ -105,7 +105,7 @@ class ElementController extends ApiController
             $element->save();
 
             // redirect
-            Session::flash('message', 'Se creó ' . $element->name . ' exitosamente');
+            Session::flash('message', 'Se editó ' . $element->name . ' exitosamente');
             return redirect()->back();
         }
     }

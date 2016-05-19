@@ -104,10 +104,15 @@
                                             <h5>${{$value_element->price}}</h5>
                                         </div>
                                         <div class="col-md-4" style="    margin-top: 5px;margin-bottom: 5px;">
-                                            <button class="btn btn-link btn-small" href="#" data-toggle="modal" data-target="#updateSection" data-sectionid="{{$value->id}}" data-name="{{$value->name}}">
+                                            <button class="btn btn-link btn-small" data-toggle="modal" data-target="#showElement"
+                                                    data-elementid="{{$value_element->id}}"
+                                                    data-name="{{$value_element->name}}"
+                                                    data-price="{{$value_element->price}}"
+                                                    data-description="{{$value_element->description}}"
+                                                    data-img="{{$value_element->image}}">
                                                 <i class="fa fa-eye fa-lg" aria-hidden="true" style="color: #8bc34a;"></i>
                                             </button>
-                                            <button class="btn btn-link btn-small" href="#" data-toggle="modal" data-target="#updateElement"
+                                            <button class="btn btn-link btn-small" data-toggle="modal" data-target="#updateElement"
                                                     data-elementid="{{$value_element->id}}"
                                                     data-name="{{$value_element->name}}"
                                                     data-price="{{$value_element->price}}"
@@ -148,3 +153,4 @@
 <!-- Element Modal -->
 @include('modals/add_element_modal')
 @include('modals/edit_element_modal')
+@include('modals/show_element_modal')
