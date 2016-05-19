@@ -24,7 +24,7 @@
 }
 
 .register-container{
-	background: url("http://i.dailymail.co.uk/i/pix/2011/02_03/cab.gif") no-repeat fixed center center / cover transparent;
+	background: url("../images/pizza.gif") no-repeat fixed center center / cover transparent;
 	position: absolute; top: 0; right: 0; bottom: 0; left: 0;
 }
 
@@ -99,7 +99,7 @@
 /* Inicio de sesion*/
 
 .login-container{
-	background: url("https://media.giphy.com/media/7JzHsh3UTip20/giphy.gif") no-repeat fixed center center / cover transparent;
+	background: url("../images/eggs.gif") no-repeat fixed center center / cover transparent;
 	position: absolute; top: 0; right: 0; bottom: 0; left: 0;
 }
 
@@ -156,4 +156,8 @@
     margin: 0 auto;
     position: relative;
     display: block;
+}
+
+a.logo-big, a.logo-big:hover, a.logo-big:focus{
+	text-decoration: none;
 }
