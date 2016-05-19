@@ -80,7 +80,7 @@
                                     <h4>{{$value->name}}</h4>
                                 </div>
                                 <div class="col-md-4">
-                                    <button name="newElement" type="button" class="btn btn-info add-element" data-toggle="modal" data-target="#newElement">
+                                    <button name="newElement" type="button" class="btn btn-info add-element" data-toggle="modal" data-target="#newElement" data-sectionid="{{$value->id}}">
                                         <i class="fa fa-plus" aria-hidden="true"></i>
                                         <i class="fa fa-cutlery" aria-hidden="true"></i>
                                     </button>
@@ -93,6 +93,21 @@
                                     {{ Form::close() }}
                                 </div>
                             </div>
+
+                            @if ($value->elements != null)
+                                @foreach($value->elements as $key_element => $value_element)
+                                    <div class="menu-element row">
+                                        <div class="col-md-10">
+                                            <h5>{{$value_element->name}}</h5>
+                                        </div>
+                                        <div class="col-md-2  pull-right">
+                                            {{$value_element->price}}
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+
+
 
                         </div>
                     </div>
@@ -109,7 +124,8 @@
 
 @endsection
 
-        <!-- Menu Modal -->
+<!-- Menu Modal -->
 @include('modals/add_section_modal')
 @include('modals/edit_section_modal')
-
+<!-- Element Modal -->
+@include('modals/add_element_modal')

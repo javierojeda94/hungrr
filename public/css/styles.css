@@ -144,7 +144,7 @@
 	background-color: #ff5252;
 	border-color: #ff5252;
 }
-.add-element:hover{
+.add-element:hover, .add-element:active, .add-element:focus{
 	background-color: #cc0000;
 	border-color: #cc0000;
 

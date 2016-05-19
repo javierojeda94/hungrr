@@ -71,6 +71,13 @@ Route::group(['middleware' => 'web'], function () {
             'uses' => 'SectionController@update'
         ]);
 
+    //Elements
+    Route::resource('elements', 'ElementController');
+    Route::post('/element/store',
+        [ 'as' => 'element.store',
+            'uses' => 'ElementController@store'
+        ]);
+
 
 
 });
