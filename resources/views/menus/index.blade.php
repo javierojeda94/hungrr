@@ -50,7 +50,7 @@
     <div class="container">
         <nav class="navbar navbar-inverse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ URL::to('menus') }} " style="color:white;">Ver los menús</a></li>
+                <li><a href="{{ URL::to('menus/'.$restaurant->id) }} " style="color:white;">Ver los menús</a></li>
                 <li><a href="#"  data-toggle="modal" data-target="#newMenu" data-restaurantid="{{$restaurant->id}}">Crear un menú</a>
             </ul>
         </nav>
@@ -79,7 +79,7 @@
                             {{ Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', array('type' => 'submit','class' => 'btn btn-warning')) }}
                         {{ Form::close() }}
 
-                        <a class="btn btn-small btn-success" href="{{ URL::to('menus/' . $value->id) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        <a class="btn btn-small btn-success" href="{{ URL::to('menus/edit/' . $value->id) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
                         <a class="btn btn-small btn-info" href="#" data-toggle="modal" data-target="#updateMenu" data-menuid="{{$value->id}}" data-name="{{$value->name}}">
                             <i class="fa fa-pencil" aria-hidden="true"></i>

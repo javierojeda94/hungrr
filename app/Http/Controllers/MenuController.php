@@ -88,7 +88,6 @@ class MenuController extends ApiController
         }
     }
 
-
     public function destroy($id)
     {
         // delete
@@ -99,5 +98,21 @@ class MenuController extends ApiController
         Session::flash('message', 'Se eliminó el menú exitosamente!');
         return redirect()->back();
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        // get the nerd
+        $menu = Menu::find($id);
+
+        // show the view and pass the restaurant to it
+        return view('menus.show',compact('menu'));
+    }
+
 
 }

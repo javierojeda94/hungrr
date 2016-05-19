@@ -49,6 +49,7 @@ Route::group(['middleware' => 'web'], function () {
 
     //Menus
     Route::get('/menus/{restaurantId}', 'MenuController@index');
+    Route::get('/menus/edit/{menuId}', 'MenuController@show');
     Route::resource('menus', 'MenuController');
     Route::post('/menus/store',
         [ 'as' => 'menus.store',
