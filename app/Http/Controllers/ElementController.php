@@ -96,8 +96,8 @@ class ElementController extends ApiController
     public function destroy($id)
     {
         // delete
-        $section = Section::find($id);
-        $section->delete();
+        $element = Element::find($id);
+        $element->delete();
 
         // redirect
         Session::flash('message', 'Se eliminó el menú exitosamente!');

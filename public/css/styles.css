@@ -149,3 +149,11 @@
 	border-color: #cc0000;
 
 }
+
+#img_preview, #img_preview_menu{
+	max-width: 250px;
+    max-height: 187.5px;
+    margin: 0 auto;
+    position: relative;
+    display: block;
+}

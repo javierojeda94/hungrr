@@ -97,11 +97,24 @@
                             @if ($value->elements != null)
                                 @foreach($value->elements as $key_element => $value_element)
                                     <div class="menu-element row">
-                                        <div class="col-md-10">
+                                        <div class="col-md-6">
                                             <h5>{{$value_element->name}}</h5>
                                         </div>
-                                        <div class="col-md-2  pull-right">
-                                            {{$value_element->price}}
+                                        <div class="col-md-2">
+                                            <h5>${{$value_element->price}}</h5>
+                                        </div>
+                                        <div class="col-md-4" style="    margin-top: 5px;margin-bottom: 5px;">
+                                            <a class="btn btn-link btn-small" href="#" data-toggle="modal" data-target="#updateSection" data-sectionid="{{$value->id}}" data-name="{{$value->name}}">
+                                                <i class="fa fa-eye fa-lg" aria-hidden="true" style="color: #8bc34a;"></i>
+                                            </a>
+                                            <a class="btn btn-link btn-small" href="#" data-toggle="modal" data-target="#updateSection" data-sectionid="{{$value->id}}" data-name="{{$value->name}}">
+                                                <i class="fa fa-pencil fa-lg" aria-hidden="true" style="color:#5bc0de;"></i>
+                                            </a>
+                                            {{ Form::open(array('url' => 'elements/' . $value_element->id, 'class' => 'pull-right')) }}
+                                                {{ Form::hidden('_method', 'DELETE') }}
+                                                {{ Form::button('<i class="fa fa-trash fa-lg" aria-hidden="true"></i>', array('type' => 'submit','class' => 'btn btn-link btn-small', 'style'=>'color:#f0ad4e')) }}
+                                            {{ Form::close() }}
+
                                         </div>
                                     </div>
                                 @endforeach
