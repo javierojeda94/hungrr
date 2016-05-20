@@ -64,7 +64,7 @@
                                         Iniciar Sesi&oacute;n
                                     </button>
                                     <p class="already">¿No tienes una cuenta? <a href="{{ url('/register') }}">¡Regístrate!</a></p>
-                                    <a class="btn btn-link forgot-password" href="{{ url('/password/reset') }}">Olvid&eacute; mi contrase&ntilde;a</a>
+                                   <!-- <a class="btn btn-link forgot-password" href="{{ url('/password/reset') }}">Olvid&eacute; mi contrase&ntilde;a</a> -->
                                 </div>
                             </div>
                         </form>

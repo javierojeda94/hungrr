@@ -82,6 +82,10 @@ Route::group(['middleware' => 'web'], function () {
             'uses' => 'ElementController@update'
         ]);
 
+    //Messages
+    Route::post('contact',
+        ['as' => 'contact_store', 'uses' => 'HomeController@store']);
+    Route::post('contact_request','HomeController@store');
 
 
 });
