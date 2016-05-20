@@ -87,6 +87,9 @@ Route::group(['middleware' => 'web'], function () {
         ['as' => 'contact_store', 'uses' => 'HomeController@store']);
     Route::post('contact_request','HomeController@store');
 
+    // Mail
+    Route::get('mail/test/{message}','HomeController@mail');
+
 
 });
 

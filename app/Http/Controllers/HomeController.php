@@ -50,14 +50,13 @@ class HomeController extends Controller
 
         //If everything is correct than run passes.
         if ($validator -> passes()){
-
-            Mail::send('', $data, function($message) use ($data)
-            {
-                //$message->from($data['email'] , $data['first_name']); uncomment if using first name and email fields 
-                $message->from('gennycm13@gmail.com', 'feedback contact form');
-                //email 'To' field: cahnge this to emails that you want to be notified.                    
-                $message->to('gennycm13@gmail.com', 'John')->cc('gennycm13@gmail.com')->subject('feedback form submit');
-
+            Mail::raw($msg, function($message){
+                //$message->from($data['email'] , $data['first_name']); uncomment if using first name and email fields
+                $message->from('hungrr.mx@gmail.com', 'feedback contact form');
+                //email 'To' field: cahnge this to emails that you want to be notified.
+                $message->to('gennycm13@gmail.com', 'Andrea')->cc('gennycm13@gmail.com')->subject('feedback form submit');
+                //email subject
+                $message->subject('feedback contact form');
             });
             // Redirect to page
             return redirect('home')
