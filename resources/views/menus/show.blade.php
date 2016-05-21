@@ -39,7 +39,7 @@
 
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Cerrar Sesi&oacute;n</a></li>
-                            <li><a href="{{ url('/send') }}"><i class="fa fa-btn fa-envelope"></i>Enviar mensaje a soporte</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#sendMessage"><i class="fa fa-btn fa-envelope"></i>Enviar mensaje a soporte</a></li>
                         </ul>
                     </li>
                     @endif

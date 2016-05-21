@@ -40,7 +40,7 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Cerrar Sesi&oacute;n</a></li>
-                                <li><a href="{{ url('/send') }}"><i class="fa fa-btn fa-envelope"></i>Enviar mensaje a soporte</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#sendMessage"><i class="fa fa-btn fa-envelope"></i>Enviar mensaje a soporte</a></li>
                             </ul>
                         </li>
                     @endif
@@ -60,7 +60,7 @@
 
         {{ Form::open(array('url' => 'restaurants', 'files' => true)) }}
 
-            <div class="panel-body">                 
+            <div class="panel-body">
                 <div class="col-md-12 general">
                     <h2>Datos generales</h2>
                     <hr>
@@ -86,7 +86,7 @@
                             <img id="img_preview" src="../images/placeholder3.png" alt="Preview" style="max-width:250px;max-height: 250px;"/>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="col-md-12 opening-hours">
                     <h2>Horario</h2>
@@ -172,9 +172,5 @@
 
             </div>
     </div>
-
+@include('modals/send_message_modal')
     @endsection
-
-
-
-            

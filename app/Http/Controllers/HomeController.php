@@ -48,13 +48,15 @@ class HomeController extends Controller
         //Validate data
         $validator = Validator::make ($data, $rules);
 
+        $msg = Input::all()['message'];
+
         //If everything is correct than run passes.
         if ($validator -> passes()){
             Mail::raw($msg, function($message){
                 //$message->from($data['email'] , $data['first_name']); uncomment if using first name and email fields
                 $message->from('hungrr.mx@gmail.com', 'feedback contact form');
                 //email 'To' field: cahnge this to emails that you want to be notified.
-                $message->to('gennycm13@gmail.com', 'Andrea')->cc('gennycm13@gmail.com')->subject('feedback form submit');
+                $message->to('ojeda.javier94@gmail.com', 'Javier Ojeda')->cc('gennycm13@gmail.com')->subject('feedback form submit');
                 //email subject
                 $message->subject('feedback contact form');
             });
