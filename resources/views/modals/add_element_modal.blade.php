@@ -12,6 +12,7 @@
             {!! Form::hidden('id', '', ['required','id' => 'section-id','class' => 'section-id']) !!}
             {!! Form::text('name', '', ['required','id' => 'name','class' => 'form-control name',  'placeholder'=>'Nombre', 'style'=>'width:100%; margin-bottom:10px']) !!}
             {!! Form::text('price', '', ['required','id' => 'price','class' => 'form-control price',  'placeholder'=>'Precio p.e: 100, 230, etc.', 'style'=>'width:100%;margin-bottom:10px']) !!}
+            {!! Form::select('type', array('bebida'=>'Bebida', 'comida'=>'Comida', 'complemento'=>'Complemento', 'postre'=>'Postre'),'', array('required','id' => 'type','class' => 'form-control', 'style'=>'width:100%;margin-bottom:10px')) !!}
             {!! Form::textarea('description', '', ['required','id' => 'description','size' => '30x4','maxlength'=>'50','class' => 'form-control description',  'placeholder'=>'Descripción', 'style'=>'width:100%;margin-bottom:10px']) !!}
             {!! Form::file('image', array('required','id'=>'imgInp_menu')) !!}
           </div>

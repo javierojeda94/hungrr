@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Element;
 use App\Utils\Transformers\PackRestaurantTransformer;
 use App\Http\Requests;
 use App\Restaurant;
+use Illuminate\Support\Facades\DB;
 
 define('SEARCH_RADIUS', 7000);
 define('RESULTS_NUMBER', 20);
+define('DISTANCE_FUNCTION', "( 6371 * acos( cos( radians(%f) ) * cos( radians( latitude ) ) 
+   * cos( radians(longitude) - radians(%f)) + sin(radians(%f)) 
+   * sin( radians(latitude)))) AS distance ");
 define('MAX_PACK_PER_RESTAURANT', 3);
 
 class PackController extends ApiController
@@ -52,21 +55,18 @@ class PackController extends ApiController
      */
     private function getRestaurantsByLocation($latitude, $longitude, $searchRadius){
         $constraints = getConstraints($latitude, $longitude, $searchRadius + 1000);
-        $restaurants = Restaurant::with('menus.sections.elements')
+        $distanceFuntion = sprintf(DISTANCE_FUNCTION, $latitude, $longitude, $latitude);
+
+        $restaurants = Restaurant::select('*', DB::raw($distanceFuntion))
+            ->with('menus.sections.elements')
             ->where('latitude','>=',$constraints['min_lat'])
             ->where('latitude','<=',$constraints['max_lat'])
             ->where('longitude','>=',$constraints['min_lng'])
-            ->where('longitude','<=',$constraints['max_lng'])->get();
-        $restaurantsInArea = array();
-        foreach($restaurants->toArray() as $restaurant){
-            if( distance($restaurant['latitude'], $restaurant['longitude'], $latitude, $longitude) < SEARCH_RADIUS ){
-                $restaurantsInArea[] = $restaurant;
-            }
-            if( count($restaurantsInArea) == RESULTS_NUMBER){
-                break;
-            }
-        }
-        return $restaurantsInArea;
+            ->where('longitude','<=',$constraints['max_lng'])
+            ->orderBy('distance', 'ASC')
+            ->limit(RESULTS_NUMBER)->offset(0)->get();
+
+        return $restaurants;
     }
 }
 define('MAX_INTENTS_LIMIT', 30);

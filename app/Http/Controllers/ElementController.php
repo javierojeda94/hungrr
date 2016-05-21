@@ -32,8 +32,8 @@ class ElementController extends ApiController
             'name'       => 'required',
             'price'       => 'required',
             'description' => 'required',
-            'image' => 'required',
-
+            'type' => 'required',
+            'image' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -48,6 +48,7 @@ class ElementController extends ApiController
             $element->section_id = Input::get('id');
             $element->name = Input::get('name');
             $element->price = Input::get('price');
+            $element->type = Input::get('type');
             $element->currency = 'MXN';
             $element->description = Input::get('description');
             $element->save();
@@ -75,6 +76,7 @@ class ElementController extends ApiController
             'name'       => 'required',
             'price'       => 'required',
             'description' => 'required',
+            'type' => 'required'
         );
 
         $validator = Validator::make(Input::all(), $rules);
@@ -89,6 +91,7 @@ class ElementController extends ApiController
             $element = Element::find(Input::get('id'));
             $element->name = Input::get('name');
             $element->price = Input::get('price');
+            $element->type = Input::get('type');
             $element->currency = 'MXN';
             $element->description = Input::get('description');
             $element->save();

@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Restaurant;
-use App\Phone;
 use App\Utils\Transformers\DetailedRestaurantTransformer;
 use App\Utils\Transformers\RestaurantTransformer;
 use App\Http\Requests;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Storage;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
 
-define('SEARCH_RADIUS', 1000);
+define('SEARCH_RADIUS', 7000);
 define('RESULTS_NUMBER', 20);
+define('DISTANCE_FUNCTION', "( 6371 * acos( cos( radians(%f) ) * cos( radians( latitude ) ) 
+   * cos( radians(longitude) - radians(%f)) + sin(radians(%f)) 
+   * sin( radians(latitude)))) AS distance ");
 
 class RestaurantsController extends ApiController
 {
@@ -35,37 +35,40 @@ class RestaurantsController extends ApiController
     }
 
     public function findByLocation($latitude, $longitude){
-        $restaurants = Restaurant::all();
-        $restaurantsInArea = array();
-        foreach($restaurants->toArray() as $restaurant){
-            if( distance($restaurant['latitude'], $restaurant['longitude'], $latitude, $longitude) < SEARCH_RADIUS ){
-                $restaurantsInArea[] = $restaurant;
-            }
-            if( count($restaurantsInArea) == RESULTS_NUMBER){
-                break;
-            }
-        }
-        if( count($restaurantsInArea) ){
-            return $this->respondFound(['data' => $this->restaurantTransformer->transformCollection($restaurantsInArea)]);
+        $constraints = getConstraints($latitude, $longitude, SEARCH_RADIUS);
+        $distanceFuntion = sprintf(DISTANCE_FUNCTION, $latitude, $longitude, $latitude);
+
+        $restaurants = Restaurant::select('*', DB::raw($distanceFuntion))
+            ->where('latitude','>=',$constraints['min_lat'])
+            ->where('latitude','<=',$constraints['max_lat'])
+            ->where('longitude','>=',$constraints['min_lng'])
+            ->where('longitude','<=',$constraints['max_lng'])
+        ->orderBy('distance', 'ASC')
+        ->limit(RESULTS_NUMBER)->offset(0)->get();
+
+        if( count( $restaurants ) ){
+            return $this->respondFound(['data' => $this->restaurantTransformer->transformCollection($restaurants->toArray())]);
         }else{
             return $this->respondNotFound('Restaurants not found near you');
         }
     }
 
     public function findByLocationAndBudget($latitude, $longitude, $budgetMin, $budgetMax){
-        $restaurants = Restaurant::where('price','>=',$budgetMin)->where('price','<=',$budgetMax)->get();
-        $restaurantsInArea = array();
-        foreach($restaurants->toArray() as $restaurant){
-            if( distance($restaurant['latitude'], $restaurant['longitude'], $latitude, $longitude) < SEARCH_RADIUS ){
-                $restaurantsInArea[] = $restaurant;
-            }
-            if( count($restaurantsInArea) == RESULTS_NUMBER){
-                break;
-            }
-        }
-        $result = $this->restaurantTransformer->transformCollection($restaurantsInArea);
-        if( count($result) ){
-            return $this->respondFound(['data' => $result]);
+        $constraints = getConstraints($latitude, $longitude, SEARCH_RADIUS);
+        $distanceFuntion = sprintf(DISTANCE_FUNCTION, $latitude, $longitude, $latitude);
+
+        $restaurants = Restaurant::select('*', DB::raw($distanceFuntion))
+            ->where('price','>=',$budgetMin)
+            ->where('price','<=',$budgetMax)
+            ->where('latitude','>=',$constraints['min_lat'])
+            ->where('latitude','<=',$constraints['max_lat'])
+            ->where('longitude','>=',$constraints['min_lng'])
+            ->where('longitude','<=',$constraints['max_lng'])
+            ->orderBy('distance', 'ASC')
+            ->limit(RESULTS_NUMBER)->offset(0)->get();
+
+        if( count( $restaurants ) ){
+            return $this->respondFound(['data' => $this->restaurantTransformer->transformCollection($restaurants->toArray())]);
         }else{
             return $this->respondNotFound('Restaurants not found near you');
         }
@@ -98,28 +101,5 @@ class RestaurantsController extends ApiController
     public function unfavourite($restaurantID){
         Auth::user()->restaurants()->detach($restaurantID);
         return $this->respondCreated('Favourite successfully removed!');
-    }
-
-    public function store(Request $request)
-    {
-        $restaurant = new Restaurant;
-        $restaurant->name = $request->name;
-        $restaurant->latitude = $request->latitude;
-        $restaurant->longitude = $request->longitude;
-        $restaurant->direction = $request->direction;
-        $restaurant->type = $request->type;
-        $restaurant->save();
-        $phone = new Phone;
-        $phone->restaurant_id = $restaurant->id;
-        $phone->phone = $request->phone;
-        $phone->description = $request->phone_description;
-        if ($request->hasFile('image')) {
-            Storage::put(
-                '/images/p_img_' . $restaurant->id . '.png', file_get_contents($request->file('image')->getRealPath())
-            );
-            $restaurant->image = url('/images/restaurant_img_'. $restaurant->id . '.png');
-        }
-        $restaurant->save();
-        dd($restaurant);
     }
 }
