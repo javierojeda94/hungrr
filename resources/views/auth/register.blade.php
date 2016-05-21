@@ -2,15 +2,17 @@
 
 @section('content')
 <div class="register-container">
-    <div class="black"></div>
+    <div class="black" style="opacity: 0.2;"></div>
     <div class="container centered_child">
         <div class="col-md-6">
             <div class="col-md-12 ">
-                <div class="brand-container">
-                    <img class="logo-img" src="images/logo.png">
-                    <p class="brand-register">Hungrr</p>
-                    <p class="slogan">Para saciar al mounstro que llevas dentro</p>
-                </div>
+                <a class="logo-big" href="{{ url('/') }}">
+                    <div class="brand-container">
+                        <img class="logo-img" src="images/logo.png">
+                        <p class="brand-register">Hungrr</p>
+                        <p class="slogan">Para saciar al mounstro que llevas dentro</p>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col-md-6" style="border-left: 2px solid white;">

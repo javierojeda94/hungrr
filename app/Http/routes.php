@@ -10,6 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+
 Route::get('/images/{filename}', function ($filename) {
     $path = storage_path() . '/app/images/' . $filename;
 
@@ -35,11 +36,61 @@ Route::get('/images/{filename}', function ($filename) {
 */
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('/','RestaurantsWebController@index');
+     Route::get('/', function () {
+         return view('welcome');
+     });
+
     Route::auth();
+    // Session
+   // Route::post('registerOwner','SessionController@signupOwner');
+   // Route::post('loginOwner','SessionController@loginOwner');
     Route::get('/home', 'RestaurantsWebController@index');
     Route::resource('restaurants', 'RestaurantsWebController');
-    Route::get('/add', 'RestaurantsWebController@addRestaurant');
+
+    //Menus
+    Route::get('/menus/{restaurantId}', 'MenuController@index');
+    Route::get('/menus/edit/{menuId}', 'MenuController@show');
+    Route::resource('menus', 'MenuController');
+    Route::post('/menus/store',
+        [ 'as' => 'menus.store',
+            'uses' => 'MenuController@store'
+        ]);
+    Route::post('/menus/update',
+        [ 'as' => 'menus.update',
+            'uses' => 'MenuController@update'
+        ]);
+
+    //Sections
+    Route::resource('sections', 'SectionController');
+    Route::post('/section/store',
+        [ 'as' => 'section.store',
+            'uses' => 'SectionController@store'
+        ]);
+    Route::post('/section/update',
+        [ 'as' => 'section.update',
+            'uses' => 'SectionController@update'
+        ]);
+
+    //Elements
+    Route::resource('elements', 'ElementController');
+    Route::post('/element/store',
+        [ 'as' => 'element.store',
+            'uses' => 'ElementController@store'
+        ]);
+    Route::post('/element/update',
+        [ 'as' => 'element.update',
+            'uses' => 'ElementController@update'
+        ]);
+
+    //Messages
+    Route::post('contact',
+        ['as' => 'contact_store', 'uses' => 'HomeController@store']);
+    Route::post('contact_request','HomeController@store');
+
+    // Mail
+    Route::get('mail/test/{message}','HomeController@mail');
+
+
 });
 
 // , 'middleware' => 'api'

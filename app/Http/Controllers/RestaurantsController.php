@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Storage;
 use Illuminate\Support\Facades\Input;
 
-define('SEARCH_RADIUS', 7000);
+define('SEARCH_RADIUS', 1000);
 define('RESULTS_NUMBER', 20);
 
 class RestaurantsController extends ApiController

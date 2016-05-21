@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Restaurant;
 use App\Phone;
+use App\Schedule;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Redirect;
+use Session;
 use Illuminate\Support\Facades\Auth;
 use Storage;
 use Illuminate\Support\Facades\Input;
@@ -22,8 +26,13 @@ class RestaurantsWebController extends ApiController
 
     public function index(){
         //TODO: Only return users restaurants
-        $restaurants = Restaurant::all();
+        $restaurants = Auth::user()->restaurants;
+        if($restaurants == null){
+            $restaurants = [];
+        }
+
         return view('restaurants.index',compact('restaurants'));
+
     }
 
      /**
@@ -42,26 +51,63 @@ class RestaurantsWebController extends ApiController
      *
      * @return Response
      */
-    public function store(Request $request){
-        $restaurant = new Restaurant;
-        $restaurant->name = $request->name;
-        $restaurant->latitude = $request->latitude;
-        $restaurant->longitude = $request->longitude;
-        $restaurant->direction = $request->direction;
-        $restaurant->type = $request->type;
-        $restaurant->save();
-        $phone = new Phone;
-        $phone->restaurant_id = $restaurant->id;
-        $phone->phone = $request->phone;
-        $phone->description = $request->phone_description;
-        if ($request->hasFile('image')) {
-            Storage::put(
-                '/images/p_img_' . $restaurant->id . '.png', file_get_contents($request->file('image')->getRealPath())
-            );
-            $restaurant->image = url('/images/restaurant_img_'. $restaurant->id . '.png');
+    public function store(){
+        // validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'name'       => 'required',
+            'type'      => 'required',
+            'phone'      => 'required',
+            'direction' => 'required',
+            'image' => 'required',
+        );
+        $days = array(
+            'monday', 'tuesday','wednesday','thursday','friday','saturday','sunday'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return redirect('restaurants/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            $restaurant = new Restaurant;
+            $restaurant->name = Input::get('name');
+            $restaurant->direction = Input::get('direction');
+            $restaurant->type = Input::get('type');
+            $restaurant->latitude = Input::get('us2-lat');
+            $restaurant->longitude = Input::get('us2-lon');
+            $restaurant->save();
+
+            //Saving phone
+            $phone = new Phone;
+            $phone->restaurant_id = $restaurant->id;
+            $phone->phone = Input::get('phone');
+            $phone->save();
+            if (Input::file('image')->isValid()) {
+                Storage::put(
+                    '/images/restaurant_img_' . $restaurant->id . '.png', file_get_contents(Input::file('image')->getRealPath())
+                );
+                $restaurant->image = url('/images/restaurant_img_'. $restaurant->id . '.png');
+            }
+            $restaurant->save();
+
+            //Saving schedule
+            foreach ($days as $day) {
+                $schedule = new Schedule;
+                $schedule->day = $day;
+                $schedule->hour_init = Input::get($day.'_oh');
+                $schedule->hour_finish = Input::get($day.'_ch');
+                $schedule->save();
+                $restaurant->schedules()->save($schedule);
+            }
+
+            Auth::user()->restaurants()->save($restaurant);
+            Auth::user()->save();
         }
-        $restaurant->save();
-        dd($restaurant);
+
+        return redirect('restaurants');
     }
 
     /**
@@ -70,13 +116,15 @@ class RestaurantsWebController extends ApiController
      * @param  int  $id
      * @return Response
      */
-    public function show($restaurantID){
-        $restaurant = Restaurant::with('menus.sections.elements')->where('id','=', $restaurantID)->get()->first();
-        if( $restaurant ) {
-            return $this->respondFound(['data' => $this->detailedRestaurantTransformer->transform($restaurant)]);
-        }else{
-            return $this->respondNotFound('Restaurant not found');
-        }
+    public function show($id)
+    {
+        // get the nerd
+        $restaurant = Restaurant::find($id);
+        $phones = $restaurant->phones()->where('restaurant_id', $restaurant->id)->first();
+        $schedules = $restaurant->schedules;
+
+        // show the view and pass the restaurant to it
+        return view('restaurants.show',compact('restaurant','phones','schedules'));
     }
 
     /**
@@ -85,8 +133,15 @@ class RestaurantsWebController extends ApiController
      * @param  int  $id
      * @return Response
      */
-    public function edit($id){
-        //
+    public function edit($id)
+    {
+        // get the restaurant
+        $restaurant = Restaurant::find($id);
+        $phones = $restaurant->phones()->where('restaurant_id', $restaurant->id)->first();
+        $schedules = $restaurant->schedules;
+
+        // show the edit form and pass the nerd
+        return view('restaurants.edit',compact('restaurant','phones','schedules'));
     }
 
     /**
@@ -96,8 +151,60 @@ class RestaurantsWebController extends ApiController
      * @return Response
      */
     public function update($id){
-        //
+        // validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'name'       => 'required',
+            'type'      => 'required',
+            'phone'      => 'required',
+            'direction' => 'required'
+        );
+        $days = array(
+            'monday', 'tuesday','wednesday','thursday','friday','saturday','sunday'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return redirect('restaurants/edit')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            $restaurant = Restaurant::find($id);
+            $restaurant->name = Input::get('name');
+            $restaurant->direction = Input::get('direction');
+            $restaurant->type = Input::get('type');
+            $restaurant->latitude = Input::get('us4-lat');
+            $restaurant->longitude = Input::get('us4-lon');
+            $restaurant->save();
+
+            //Saving phone
+            $phones = $restaurant->phones()->where('restaurant_id', $restaurant->id)->first();
+            $phones->phone = Input::get('phone');
+            $phones->save();
+
+            if(Input::file('image')!= null){
+                if (Input::file('image')->isValid()) {
+                    Storage::put(
+                        '/images/restaurant_img_' . $restaurant->id . '.png', file_get_contents(Input::file('image')->getRealPath())
+                    );
+                    $restaurant->image = url('/images/restaurant_img_'. $restaurant->id . '.png');
+                }
+                $restaurant->save();
+            }
+
+            //Saving schedule
+            $schedules = $restaurant->schedules;
+            foreach ($schedules as $schedule) {
+                $schedule->hour_init = Input::get($schedule->day.'_oh');
+                $schedule->hour_finish = Input::get($schedule->day.'_ch');
+                $schedule->save();
+            }
+        }
+
+        return redirect('restaurants');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -105,14 +212,19 @@ class RestaurantsWebController extends ApiController
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id){
-        //
-    }
-  
+    public function destroy($id)
+    {
+        // delete
+        $restaurant = Restaurant::find($id);
+       // $restaurant->phones()->delete();
+        $restaurant->schedules()->delete();
+        $restaurant->delete();
 
-    public function addRestaurant(){
-        return view('add_restaurant');
-    }       
+        // redirect
+        Session::flash('message', 'Se eliminó el restaurante exitosamente');
+        return redirect('restaurants');
+    }
+
 
 
 }

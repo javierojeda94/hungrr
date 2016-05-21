@@ -24,7 +24,7 @@
 }
 
 .register-container{
-	background: url("http://i.dailymail.co.uk/i/pix/2011/02_03/cab.gif") no-repeat fixed center center / cover transparent;
+	background: url("../images/pizza.gif") no-repeat fixed center center / cover transparent;
 	position: absolute; top: 0; right: 0; bottom: 0; left: 0;
 }
 
@@ -99,7 +99,7 @@
 /* Inicio de sesion*/
 
 .login-container{
-	background: url("https://media.giphy.com/media/7JzHsh3UTip20/giphy.gif") no-repeat fixed center center / cover transparent;
+	background: url("../images/eggs.gif") no-repeat fixed center center / cover transparent;
 	position: absolute; top: 0; right: 0; bottom: 0; left: 0;
 }
 
@@ -107,4 +107,57 @@
 	font-size: 1.2em;
 	margin-top:-15px;
 	color:lightblue;
+}
+
+
+.navbar-default {
+	background-color: #009688;
+	border-color: #009688;
+	border-radius: 0;
+}
+
+.navbar-default .navbar-brand {
+	color: white;
+}
+
+.navbar-default .navbar-nav>li>a {
+	color: white;
+}
+
+.day{
+	width: 14.2857%;
+	float: left;
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.day p{
+	font-weight: bold;
+	border-bottom: solid 2px #b6b6b6;
+	width:100%;
+}
+
+.add-element{
+	padding: 3px 12px;
+	background-color: #ff5252;
+	border-color: #ff5252;
+}
+.add-element:hover, .add-element:active, .add-element:focus{
+	background-color: #cc0000;
+	border-color: #cc0000;
+
+}
+
+#img_preview, #img_preview_menu{
+	max-width: 250px;
+    max-height: 187.5px;
+    margin: 0 auto;
+    position: relative;
+    display: block;
+}
+
+a.logo-big, a.logo-big:hover, a.logo-big:focus{
+	text-decoration: none;
 }

@@ -6,11 +6,13 @@
 <div class="container centered_child">
     <div class="col-md-6">
         <div class="col-md-12 ">
-            <div class="brand-container">
-                <img class="logo-img" src="images/logo.png">
-                <p class="brand-register">Hungrr</p>
-                <p class="slogan">Para saciar al mounstro que llevas dentro</p>
-            </div>
+            <a class="logo-big" href="{{ url('/') }}">
+                <div class="brand-container">
+                    <img class="logo-img" src="images/logo.png">
+                    <p class="brand-register">Hungrr</p>
+                    <p class="slogan">Para saciar al mounstro que llevas dentro</p>
+                </div>
+            </a>
         </div>
     </div>
     <div class="col-md-6" style="border-left: 2px solid white;">
@@ -62,7 +64,7 @@
                                         Iniciar Sesi&oacute;n
                                     </button>
                                     <p class="already">¿No tienes una cuenta? <a href="{{ url('/register') }}">¡Regístrate!</a></p>
-                                    <a class="btn btn-link forgot-password" href="{{ url('/password/reset') }}">Olvid&eacute; mi contrase&ntilde;a</a>
+                                   <!-- <a class="btn btn-link forgot-password" href="{{ url('/password/reset') }}">Olvid&eacute; mi contrase&ntilde;a</a> -->
                                 </div>
                             </div>
                         </form>
